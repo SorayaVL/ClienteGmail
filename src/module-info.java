@@ -11,6 +11,5 @@ module ClienteGmail {
     exports es.soraya.views;
     exports es.soraya;
 
-
-    opens es.soraya.views to javafx.fxml; //
+    opens es.soraya.views to javafx.fxml;
 }

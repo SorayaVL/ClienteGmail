@@ -1,11 +1,11 @@
 package es.soraya;
 
 import javafx.application.Application;
+import javafx.beans.DefaultProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 
 public class Launcher extends Application {
     @Override

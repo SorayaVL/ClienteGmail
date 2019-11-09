@@ -19,13 +19,18 @@ public class Logica {
     public Logica() {
     }
 
-    private static Logica getINSTANCE() {
+    public static Logica getINSTANCE() {
 
         if (INSTANCE == null)
             INSTANCE = new Logica();
 
         return INSTANCE;
     }
+
+    public List<Correo> getListaCorreo() {
+        return ListaCorreo;
+    }
+
     private List<Correo> ListaCorreo = new ArrayList<Correo>();
 
     private Properties getServerProperties(String protocol, String host,

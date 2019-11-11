@@ -5,8 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="248.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="248.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.soraya.views.VentanaLogin">
    <children>
       <Label layoutX="61.0" layoutY="79.0" text="Usuario: " AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="79.0" />
       <Button fx:id="btnAceptar" layoutX="327.0" layoutY="160.0" mnemonicParsing="false" onAction="#salvaCuenta" prefHeight="25.0" prefWidth="83.0" text="Aceptar" AnchorPane.rightAnchor="50.0" />

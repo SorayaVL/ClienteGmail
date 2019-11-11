@@ -5,6 +5,9 @@ module ClienteGmail {
     requires javafx.fxml;
     requires org.controlsfx.controls;
     requires java.mail;
+    requires javafx.media;
+    requires javafx.web;
+
 
     exports es.soraya.models;
     exports es.soraya.logica;

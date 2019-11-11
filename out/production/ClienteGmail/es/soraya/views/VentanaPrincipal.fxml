@@ -7,12 +7,13 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.TreeView?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.web.WebView?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.soraya.views.VentanaPrincipal">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -33,33 +34,33 @@
         </Menu>
       </menus>
     </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="395.0" prefWidth="678.0" VBox.vgrow="ALWAYS">
          <children>
-            <SplitPane dividerPositions="0.24110032362459546" prefHeight="375.0" prefWidth="640.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <SplitPane dividerPositions="0.11003236245954692" prefHeight="375.0" prefWidth="640.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="353.0" prefWidth="111.0">
                      <children>
-                        <TreeView prefHeight="353.0" prefWidth="146.0" />
+                        <TreeView prefHeight="353.0" prefWidth="105.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
-                        <SplitPane dividerPositions="0.4075067024128686" layoutY="-9.0" orientation="VERTICAL" prefHeight="375.0" prefWidth="527.0">
+                        <SplitPane dividerPositions="0.4075067024128686" layoutY="-9.0" orientation="VERTICAL" prefHeight="353.0" prefWidth="466.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <items>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="153.0" prefWidth="468.0">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="140.0" prefWidth="488.0">
                                  <children>
-                                    <TableView fx:id="tvMensajes" prefHeight="153.0" prefWidth="466.0">
+                                    <TableView fx:id="tvMensajes" prefHeight="140.0" prefWidth="464.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <columns>
-                                        <TableColumn prefWidth="75.0" text="De" >
+                                        <TableColumn prefWidth="150.0" text="De">
                                             <cellValueFactory><PropertyValueFactory property="from" />
                                             </cellValueFactory>
                                         </TableColumn>
-                                        <TableColumn prefWidth="75.0" text="Asunto">
+                                        <TableColumn prefWidth="274.0" text="Asunto">
                                             <cellValueFactory><PropertyValueFactory property="subject" />
                                             </cellValueFactory>
 
                                         </TableColumn>
-                                        <TableColumn prefWidth="75.0" text="Fecha">
+                                        <TableColumn minWidth="4.0" prefWidth="119.0" text="Fecha">
                                             <cellValueFactory><PropertyValueFactory property="date" />
                                             </cellValueFactory>
 
@@ -68,7 +69,10 @@
                                     </TableView>
                                  </children>
                               </AnchorPane>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="218.0" prefWidth="488.0" />
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="179.0" prefWidth="464.0">
+                                 <children>
+                                    <WebView fx:id="wvMensaje" prefHeight="200.0" prefWidth="545.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children></AnchorPane>
                           </items>
                         </SplitPane>
                      </children>

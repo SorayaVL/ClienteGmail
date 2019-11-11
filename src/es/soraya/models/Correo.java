@@ -1,22 +1,30 @@
 package es.soraya.models;
 
+import javax.mail.Address;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Correo {
 
-    private String from;
+    private Address[] from;
     private String subject;
-    private String date;
+    private Date fecha;
 
-    public Correo (String from, String subject, String date) {
-        this.from = from;
-        this.subject = subject;
-        this.date = date;
-    }
 
     public String getFrom() {
-        return from;
+        String listaFrom="";
+        if (from != null){
+            for (int i = 0; i<from.length; i++){
+                listaFrom+=from[i].toString()+", ";
+            }
+
+        }
+        if (listaFrom.length()>1) listaFrom= listaFrom.substring(0,listaFrom.length()-2);
+        return listaFrom;
     }
 
-    public void setFrom(String from) {
+    public void setFrom(Address[] from) {
         this.from = from;
     }
 
@@ -29,10 +37,19 @@ public class Correo {
     }
 
     public String getDate() {
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+        String date = dateFormat.format(fecha);
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDate(Date date) {
+        this.fecha = date;
     }
+
+    public Correo (Address[] from, String subject, Date date) {
+        this.from = from;
+        this.subject = subject;
+        fecha = date;
+    }
+
 }

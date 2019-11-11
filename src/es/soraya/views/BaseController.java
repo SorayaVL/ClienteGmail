@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class BaseController {
     Parent root;
-     Stage stage;
+    Stage stage;
 
     // private void cargar Stage (Parent root, int an)
 

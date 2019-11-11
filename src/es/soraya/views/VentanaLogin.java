@@ -4,11 +4,13 @@ import es.soraya.logica.Logica;
 import es.soraya.models.CuentaCorreo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 
-public class VentanaLogin {
+public class VentanaLogin extends BaseController{
 
         @FXML
         private Button btnAceptar;
@@ -23,6 +25,8 @@ public class VentanaLogin {
         void salvaCuenta(ActionEvent event) {
                 CuentaCorreo cuenta = new CuentaCorreo(tfEmail.getText(), tfPassword.getText());
                 Logica.getINSTANCE().aniadirCuenta(cuenta);
+                Stage stage= ((Stage)((Node) event.getSource()).getScene().getWindow());
+                stage.close();
         }
 
 

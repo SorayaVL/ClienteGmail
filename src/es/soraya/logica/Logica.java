@@ -1,21 +1,16 @@
 package es.soraya.logica;
 
 import com.sun.mail.imap.IMAPFolder;
-import com.sun.mail.util.MailSSLSocketFactory;
-import es.soraya.models.Correo;
+import es.soraya.models.Emails;
 import es.soraya.models.CuentaCorreo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import javax.mail.*;
-import javax.mail.internet.MimeMessage;
+import javax.mail.Folder;
+import javax.mail.MessagingException;
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Properties;
-import java.util.concurrent.Callable;
 
 public class Logica {
 
@@ -32,14 +27,14 @@ public class Logica {
         return INSTANCE;
     }
 
-    public ObservableList<Correo> ListaCorreo = FXCollections.observableArrayList();
+    public ObservableList<Emails> ListaCorreo = FXCollections.observableArrayList();
     public List<CuentaCorreo> ListaCuentas = new ArrayList<>();
 
-    public ObservableList<Correo> getListaCorreo() {
+    public ObservableList<Emails> getListaCorreo() {
         return ListaCorreo;
     }
 
-    public void setListaCorreo(ObservableList<Correo> listaCorreo) {
+    public void setListaCorreo(ObservableList<Emails> listaCorreo) {
         ListaCorreo = listaCorreo;
     }
 
@@ -47,13 +42,16 @@ public class Logica {
         return ListaCuentas;
     }
 
-    public void cargarCorreo(Correo correo) {
+    public void cargarCorreo(Emails correo) {
         ListaCorreo.add(correo);
     }
 
     public void aniadirCuenta(CuentaCorreo cuentaCorreo) {
         ListaCuentas.add(cuentaCorreo);
     }
+
+
+
 
 
 }

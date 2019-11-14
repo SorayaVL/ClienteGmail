@@ -6,8 +6,10 @@ import es.soraya.models.Emails;
 import es.soraya.models.CuentaCorreo;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import org.apache.commons.mail.util.MimeMessageParser;
 
 import javax.mail.*;
+import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -45,8 +47,9 @@ public class GestionCuenta {
         System.out.println("conectado");
     }
 
-     public void listaEmails() throws MessagingException, IOException {
-         folder = (IMAPFolder) store.getFolder("inbox");
+     public void listaEmails(String folderName) throws MessagingException, IOException {
+        Logica.getINSTANCE().ListaCorreo.clear();
+         folder = (IMAPFolder) store.getFolder(folderName);
          if (!folder.isOpen())
              folder.open(Folder.READ_WRITE);
          listaMensajes = folder.getMessages();
@@ -58,12 +61,12 @@ public class GestionCuenta {
      }
 
      public EmailTreeItem cargaCarpetas() throws MessagingException {
-            EmailTreeItem rootItem = new EmailTreeItem(cuentaCorreo,"dirección email");
+            EmailTreeItem rootItem = new EmailTreeItem(cuentaCorreo,"GMAIL");
             Folder[] folders = store.getDefaultFolder().list(/*"*"*/);
             rootItem.setExpanded(true);
             for (Folder folder : folders) {
                 if ((folder.getType() & Folder.HOLDS_MESSAGES) != 0) {
-                   EmailTreeItem item = new EmailTreeItem(cuentaCorreo,folder.getName().toString());
+                   EmailTreeItem item = new EmailTreeItem(cuentaCorreo,folder.getName());
                    rootItem.getChildren().add(item);
                  System.out.println(folder.getName() + ": " + folder.getMessageCount());
 
@@ -93,6 +96,10 @@ public class GestionCuenta {
             return rootItem;
      }
 
+    String readHtmlContent(MimeMessage message) throws Exception {
+        return new MimeMessageParser(message).parse().getHtmlContent();
+    }
+
      /*   public EmailTreeItem cargaCarpeta (CuentaCorreo cuentaCorreo){
         EmailTreeItem emailTreeItem = new EmailTreeItem(cuentaCorreo.getEmail());
         Folder[] folders = cuentaCorreo.getStore().getDefaultFolder().list();
@@ -103,7 +110,13 @@ public class GestionCuenta {
         public void getFolder (Folder[] folders, EmailTreeItem foldersRoot, CuentaCorreo cuentaCorreo){
         for (Folder folder : folders){
 
+String readHtmlContent(MimeMessage message) throws Exception {
+    return new MimeMessageParser(message).parse().getHtmlContent();
+}
 
+String readPlainContent(MimeMessage message) throws Exception {
+    return new MimeMessageParser(message).parse().getPlainContent();
+}
 
     }
 

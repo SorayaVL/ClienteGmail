@@ -1,5 +1,6 @@
 package es.soraya.views;
 
+import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,7 +15,7 @@ public class BaseController {
 
     // private void cargar Stage (Parent root, int an)
 
-      protected BaseController cargarDialogo (String fxml, int anchura, int altura) {
+      public BaseController cargarDialogo (String fxml, boolean maximizado, int anchura, int altura) {
 
         try {
             //carga el fxml
@@ -23,7 +24,8 @@ public class BaseController {
             BaseController controller = fxmlLoader.getController();
             stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(new Scene(root, anchura, altura));
+            if (maximizado) stage.setMaximized(true);
+            else stage.setScene(new Scene(root, anchura, altura));
             return controller;
 
         } catch (IOException e) {

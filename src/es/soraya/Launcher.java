@@ -1,9 +1,5 @@
 package es.soraya;
 
-import es.soraya.logica.GestionCuenta;
-import es.soraya.logica.Logica;
-import es.soraya.models.CuentaCorreo;
-import es.soraya.views.BaseController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

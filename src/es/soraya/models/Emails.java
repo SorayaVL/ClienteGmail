@@ -41,6 +41,7 @@ public class Emails extends CuentaCorreo {
         return listaFrom;
     }
 
+
     public void setFrom(Address[] from) {
         this.from = from;
     }
@@ -69,24 +70,6 @@ public class Emails extends CuentaCorreo {
         fecha = date;
 
     }
-
-    public Emails(Message mensaje) {
-        this.mensaje = mensaje;
-    }
-
-
-   public void listaEmails(CuentaCorreo cuentaCorreo) throws MessagingException, IOException {
-        folder = (IMAPFolder) cuentaCorreo.getStore().getFolder("inbox");
-        if (!folder.isOpen())
-            folder.open(Folder.READ_WRITE);
-        listaMensajes = folder.getMessages();
-        for (int i = 0; i < listaMensajes.length; i++) {
-            mensaje = listaMensajes[i];
-            Emails correo = new Emails(mensaje.getFrom(), mensaje.getSubject(), mensaje.getReceivedDate());
-            Logica.getINSTANCE().cargarCorreo(correo);
-        }
-    }
-
 
 
 }

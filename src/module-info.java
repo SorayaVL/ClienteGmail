@@ -7,6 +7,7 @@ module ClienteGmail {
     requires java.mail;
     requires javafx.media;
     requires javafx.web;
+    requires commons.email;
 
 
     exports es.soraya.models;

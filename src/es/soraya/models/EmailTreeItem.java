@@ -20,7 +20,7 @@ public class EmailTreeItem extends TreeItem<String> {
     }
 
 
-    public EmailTreeItem(CuentaCorreo cuentaCorreo, String name) {
+    public EmailTreeItem(CuentaCorreo cuentaCorreo, String name, Folder folder) {
         super(name);
         this.cuentaCorreo = cuentaCorreo;
         this.name = name;

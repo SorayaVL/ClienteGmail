@@ -4,6 +4,7 @@ import com.sun.mail.imap.IMAPFolder;
 import es.soraya.logica.GestionCuenta;
 import es.soraya.logica.Logica;
 import javafx.scene.control.TreeView;
+import org.apache.commons.mail.util.MimeMessageParser;
 
 import javax.mail.*;
 import java.io.IOException;
@@ -17,10 +18,7 @@ public class Emails extends CuentaCorreo {
     private Address[] from;
     private String subject;
     private Date fecha;
-    private IMAPFolder folder;
     private Message mensaje;
-    Message[] listaMensajes;
-
     CuentaCorreo cuentaCorreo;
     TreeView<String> treeView;
 
@@ -54,22 +52,57 @@ public class Emails extends CuentaCorreo {
         this.subject = subject;
     }
 
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public void setMensaje(Message mensaje) {
+        this.mensaje = mensaje;
+    }
+
+
+    public CuentaCorreo getCuentaCorreo() {
+        return cuentaCorreo;
+    }
+
+    public void setCuentaCorreo(CuentaCorreo cuentaCorreo) {
+        this.cuentaCorreo = cuentaCorreo;
+    }
+
+    public TreeView<String> getTreeView() {
+        return treeView;
+    }
+
+    public void setTreeView(TreeView<String> treeView) {
+        this.treeView = treeView;
+    }
+
     public String getDate() {
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
         String date = dateFormat.format(fecha);
         return date;
     }
 
+    public Message getMensaje() {
+        return mensaje;
+    }
+
     public void setDate(Date date) {
         this.fecha = date;
     }
 
-    public Emails(Address[] from, String subject, Date date) {
+    public Emails(Address[] from, String subject, Date date, Message message) {
         this.from = from;
         this.subject = subject;
         fecha = date;
+        mensaje = message;
 
     }
+
 
 
 }

@@ -23,6 +23,7 @@ public class GestionCuenta {
     String subject = null;
     CuentaCorreo cuentaCorreo;
     TreeView<String> treeView;
+    MimeMessageParser parser;
 
     public GestionCuenta() {
     }
@@ -35,42 +36,86 @@ public class GestionCuenta {
         return INSTANCE;
     }
 
-    public void abrirCuenta( String email, String password) throws MessagingException {
+    public Message[] getListaMensajes() {
+        return listaMensajes;
+    }
 
+    public void setListaMensajes(Message[] listaMensajes) {
+        this.listaMensajes = listaMensajes;
+    }
 
+    public void abrirCuenta(CuentaCorreo cuentaCorreo) throws MessagingException {
         Properties props = System.getProperties();
         props.setProperty("mail.store.protocol", "imaps");
         Session session = Session.getDefaultInstance(props, null);
 
         store = session.getStore("imaps");
-        store.connect("imap.googlemail.com", email, password);
+        store.connect("imap.googlemail.com", cuentaCorreo.getEmail(), cuentaCorreo.getPassword());
         System.out.println("conectado");
     }
 
-     public void listaEmails(String folderName) throws MessagingException, IOException {
+    public void listaEmails(String folderName) throws MessagingException, IOException {
         Logica.getINSTANCE().ListaCorreo.clear();
-         folder = (IMAPFolder) store.getFolder(folderName);
-         if (!folder.isOpen())
-             folder.open(Folder.READ_WRITE);
-         listaMensajes = folder.getMessages();
-         for (int i = 0; i < listaMensajes.length; i++) {
-             mensaje = listaMensajes[i];
-             Emails correo = new Emails(mensaje.getFrom(), mensaje.getSubject(), mensaje.getReceivedDate());
-             Logica.getINSTANCE().cargarCorreo(correo);
-         }
-     }
+        folder = (IMAPFolder) store.getFolder(folderName);
+        if (!folder.isOpen())
+            folder.open(Folder.READ_WRITE);
+        listaMensajes = folder.getMessages();
+        for (int i = 0; i < listaMensajes.length; i++) {
+            mensaje = listaMensajes[i];
+            Emails correo = new Emails(mensaje.getFrom(), mensaje.getSubject(), mensaje.getReceivedDate(), mensaje);
+            Logica.getINSTANCE().cargarCorreo(correo);
+        }
+    }
 
-     public EmailTreeItem cargaCarpetas() throws MessagingException {
-            EmailTreeItem rootItem = new EmailTreeItem(cuentaCorreo,"GMAIL");
-            Folder[] folders = store.getDefaultFolder().list(/*"*"*/);
-            rootItem.setExpanded(true);
-            for (Folder folder : folders) {
-                if ((folder.getType() & Folder.HOLDS_MESSAGES) != 0) {
-                   EmailTreeItem item = new EmailTreeItem(cuentaCorreo,folder.getName());
-                   rootItem.getChildren().add(item);
-                 System.out.println(folder.getName() + ": " + folder.getMessageCount());
+    public EmailTreeItem cargaCarpetas(CuentaCorreo cuentaCorreo) throws MessagingException {
+        Folder[] folders = store.getDefaultFolder().list("*");
+        EmailTreeItem rootItem = new EmailTreeItem(cuentaCorreo, "Gmail", folder);
+        rootItem.setExpanded(true);
+        getFolder(folders,rootItem,cuentaCorreo);
+        return rootItem;
 
-                /* System.out.println(folder.getFullName() + ": " + folder.getMessageCount());
+    }
+
+
+    public void getFolder(Folder[] folders, EmailTreeItem foldersRoot, CuentaCorreo cuentaCorreo) throws MessagingException {
+        for (Folder folder : folders) {
+            EmailTreeItem emailTreeItem = new EmailTreeItem(cuentaCorreo, folder.getName(), folder);
+            foldersRoot.getChildren().add(emailTreeItem);
+            if (folder.getType() == Folder.HOLDS_FOLDERS) {
+                System.out.println("folder.getType()" + folder.getType());
+                System.out.println("folder.HOLDS_FOLDERS" + folder.HOLDS_FOLDERS);
+                getFolder(folder.list(""), emailTreeItem, cuentaCorreo);
+
+            }
+
+        }
+    }
+
+
+
+    public String leerMensaje(Message mensaje) {
+        try {
+            MimeMessage mimeMessage = (MimeMessage) mensaje;
+            MimeMessageParser parser = new MimeMessageParser(mimeMessage);
+            parser.parse();
+            String content = parser.getHtmlContent();
+            if (content == null){
+               return parser.parse().getPlainContent();
+
+            }
+
+            else{
+                return content;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+
+    }
+
+     /* System.out.println(folder.getFullName() + ": " + folder.getMessageCount());
                     System.out.println("_______________________________________________________");
                     System.out.println("No of Messages : " + folder.getMessageCount());
                     System.out.println("No of Unread Messages : " + folder.getUnreadMessageCount());
@@ -91,44 +136,8 @@ public class GestionCuenta {
                     System.out.println(mensaje.getContentType());*/
 
 
-             }
-         }
-            return rootItem;
-     }
 
-    String readHtmlContent(MimeMessage message) throws Exception {
-        return new MimeMessageParser(message).parse().getHtmlContent();
-    }
 
-     /*   public EmailTreeItem cargaCarpeta (CuentaCorreo cuentaCorreo){
-        EmailTreeItem emailTreeItem = new EmailTreeItem(cuentaCorreo.getEmail());
-        Folder[] folders = cuentaCorreo.getStore().getDefaultFolder().list();
-        getFolder(folders, emailTreeItem, cuentaCorreo);
-        return emailTreeItem;
-        }
-
-        public void getFolder (Folder[] folders, EmailTreeItem foldersRoot, CuentaCorreo cuentaCorreo){
-        for (Folder folder : folders){
-
-String readHtmlContent(MimeMessage message) throws Exception {
-    return new MimeMessageParser(message).parse().getHtmlContent();
 }
 
-String readPlainContent(MimeMessage message) throws Exception {
-    return new MimeMessageParser(message).parse().getPlainContent();
-}
 
-    }
-
-
-        }*/
-
-   private TreeItem<String> crearBranch(String folder, TreeItem<String> padre) {
-       TreeItem<String> item = new TreeItem<>(folder);
-       item.setExpanded(true);
-       padre.getChildren().add(item);// añadimos los items al itemPadre (el del nivel superior)
-       return item;
-
-
-    }
-}

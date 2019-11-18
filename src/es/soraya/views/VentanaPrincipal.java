@@ -16,7 +16,9 @@ import javafx.scene.control.TreeView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
+import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -37,16 +39,20 @@ public class VentanaPrincipal extends BaseController implements Initializable {
         }
 
         try {
-            String email = Logica.getINSTANCE().getListaCuentas().get(0).getEmail();
-            String password = Logica.getINSTANCE().getListaCuentas().get(0).getPassword();
-            GestionCuenta.getINSTANCE().abrirCuenta(email, password);
-            EmailTreeItem root = GestionCuenta.getINSTANCE().cargaCarpetas();
+            /*String email = Logica.getINSTANCE().getListaCuentas().get(0).getEmail();
+            String password = Logica.getINSTANCE().getListaCuentas().get(0).getPassword();*/
+            GestionCuenta.getINSTANCE().abrirCuenta(Logica.getINSTANCE().getListaCuentas().get(0));
+            EmailTreeItem root = GestionCuenta.getINSTANCE().cargaCarpetas(Logica.getINSTANCE().getListaCuentas().get(0));
             treeFolders.setRoot(root);
+            treeFolders.setShowRoot(false);
             treeFolders.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<String>>() {
                 @Override
                 public void changed(ObservableValue<? extends TreeItem<String>> observableValue, TreeItem<String> stringTreeItem, TreeItem<String> t1) {
+
                     try {
+                       if (t1.getValue().equalsIgnoreCase("INBOX"))
                         GestionCuenta.getINSTANCE().listaEmails(t1.getValue());
+                       else GestionCuenta.getINSTANCE().listaEmails("[Gmail]/"+t1.getValue());
 
                     } catch (MessagingException e) {
                         e.printStackTrace();
@@ -58,17 +64,22 @@ public class VentanaPrincipal extends BaseController implements Initializable {
             tvMensajes.setItems(Logica.getINSTANCE().getListaCorreo());
             WebEngine webEngine;
             webEngine = wvMensaje.getEngine();
-            webEngine.load("https://www.google.es");
-            tvMensajes.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+
+            tvMensajes.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Emails>() {
                 @Override
-                public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                public void changed(ObservableValue<? extends Emails> observableValue, Emails emails, Emails email) {
+                    try {
+                        webEngine.loadContent(GestionCuenta.getINSTANCE().leerMensaje(email.getMensaje()));
+
+                  } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
                 }
             });
+
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-
-
     }
 }

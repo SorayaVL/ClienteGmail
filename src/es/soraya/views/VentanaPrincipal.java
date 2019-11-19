@@ -1,5 +1,6 @@
 package es.soraya.views;
 
+import com.sun.mail.imap.IMAPFolder;
 import es.soraya.logica.GestionCuenta;
 import es.soraya.logica.Logica;
 import es.soraya.models.CuentaCorreo;
@@ -16,6 +17,7 @@ import javafx.scene.control.TreeView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
+import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -39,26 +41,14 @@ public class VentanaPrincipal extends BaseController implements Initializable {
         }
 
         try {
-            /*String email = Logica.getINSTANCE().getListaCuentas().get(0).getEmail();
-            String password = Logica.getINSTANCE().getListaCuentas().get(0).getPassword();*/
             GestionCuenta.getINSTANCE().abrirCuenta(Logica.getINSTANCE().getListaCuentas().get(0));
             EmailTreeItem root = GestionCuenta.getINSTANCE().cargaCarpetas(Logica.getINSTANCE().getListaCuentas().get(0));
             treeFolders.setRoot(root);
             treeFolders.setShowRoot(false);
             treeFolders.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<String>>() {
                 @Override
-                public void changed(ObservableValue<? extends TreeItem<String>> observableValue, TreeItem<String> stringTreeItem, TreeItem<String> t1) {
-
-                    try {
-                       if (t1.getValue().equalsIgnoreCase("INBOX"))
-                        GestionCuenta.getINSTANCE().listaEmails(t1.getValue());
-                       else GestionCuenta.getINSTANCE().listaEmails("[Gmail]/"+t1.getValue());
-
-                    } catch (MessagingException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                public void changed(ObservableValue<? extends TreeItem<String>> observableValue, TreeItem<String> oldValue, TreeItem<String> newValue) {
+                 GestionCuenta.getINSTANCE().listaEmails((((EmailTreeItem) newValue).folder).getFullName());
                 }
             });
             tvMensajes.setItems(Logica.getINSTANCE().getListaCorreo());
@@ -69,7 +59,10 @@ public class VentanaPrincipal extends BaseController implements Initializable {
                 @Override
                 public void changed(ObservableValue<? extends Emails> observableValue, Emails emails, Emails email) {
                     try {
-                        webEngine.loadContent(GestionCuenta.getINSTANCE().leerMensaje(email.getMensaje()));
+                        if (email!=null)
+                            webEngine.loadContent(GestionCuenta.getINSTANCE().leerMensaje(email.getMensaje()));
+                        else
+                            webEngine.loadContent("");
 
                   } catch (Exception e) {
                         e.printStackTrace();

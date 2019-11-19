@@ -4,6 +4,8 @@ import com.sun.mail.imap.IMAPFolder;
 import es.soraya.models.EmailTreeItem;
 import es.soraya.models.Emails;
 import es.soraya.models.CuentaCorreo;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import org.apache.commons.mail.util.MimeMessageParser;
@@ -16,14 +18,11 @@ import java.util.Properties;
 public class GestionCuenta {
     private static GestionCuenta INSTANCE = null;
 
-    Message mensaje;
-    Message[] listaMensajes;
-    Store store = null;
-    IMAPFolder folder = null;
-    String subject = null;
-    CuentaCorreo cuentaCorreo;
-    TreeView<String> treeView;
-    MimeMessageParser parser;
+    private Message mensaje;
+    private Message[] listaMensajes;
+    private Store store = null;
+    private IMAPFolder folder = null;
+    private String subject = null;
 
     public GestionCuenta() {
     }
@@ -54,21 +53,26 @@ public class GestionCuenta {
         System.out.println("conectado");
     }
 
-    public void listaEmails(String folderName) throws MessagingException, IOException {
+    public void listaEmails(String folderName) {
         Logica.getINSTANCE().ListaCorreo.clear();
-        folder = (IMAPFolder) store.getFolder(folderName);
-        if (!folder.isOpen())
-            folder.open(Folder.READ_WRITE);
-        listaMensajes = folder.getMessages();
-        for (int i = 0; i < listaMensajes.length; i++) {
-            mensaje = listaMensajes[i];
-            Emails correo = new Emails(mensaje.getFrom(), mensaje.getSubject(), mensaje.getReceivedDate(), mensaje);
-            Logica.getINSTANCE().cargarCorreo(correo);
+        try {
+            folder = (IMAPFolder) store.getFolder(folderName);
+            if (!folder.isOpen()) {
+                folder.open(Folder.READ_WRITE);
+                listaMensajes =  folder.getMessages();
+                for (int i = 0; i < listaMensajes.length; i++) {
+                    mensaje = listaMensajes[i];
+                    Emails correo = new Emails(mensaje.getFrom(), mensaje.getSubject(), mensaje.getReceivedDate(), mensaje);
+                    Logica.getINSTANCE().cargarCorreo(correo);
+
+                }
+            }
+        } catch (MessagingException e) {
+            e.printStackTrace();
         }
     }
-
     public EmailTreeItem cargaCarpetas(CuentaCorreo cuentaCorreo) throws MessagingException {
-        Folder[] folders = store.getDefaultFolder().list("*");
+        Folder[] folders = store.getDefaultFolder().list();
         EmailTreeItem rootItem = new EmailTreeItem(cuentaCorreo, "Gmail", folder);
         rootItem.setExpanded(true);
         getFolder(folders,rootItem,cuentaCorreo);
@@ -77,14 +81,12 @@ public class GestionCuenta {
     }
 
 
-    public void getFolder(Folder[] folders, EmailTreeItem foldersRoot, CuentaCorreo cuentaCorreo) throws MessagingException {
+    private void getFolder(Folder[] folders, EmailTreeItem foldersRoot, CuentaCorreo cuentaCorreo) throws MessagingException {
         for (Folder folder : folders) {
             EmailTreeItem emailTreeItem = new EmailTreeItem(cuentaCorreo, folder.getName(), folder);
             foldersRoot.getChildren().add(emailTreeItem);
             if (folder.getType() == Folder.HOLDS_FOLDERS) {
-                System.out.println("folder.getType()" + folder.getType());
-                System.out.println("folder.HOLDS_FOLDERS" + folder.HOLDS_FOLDERS);
-                getFolder(folder.list(""), emailTreeItem, cuentaCorreo);
+                getFolder(folder.list(), emailTreeItem, cuentaCorreo);
 
             }
 
@@ -139,5 +141,3 @@ public class GestionCuenta {
 
 
 }
-
-

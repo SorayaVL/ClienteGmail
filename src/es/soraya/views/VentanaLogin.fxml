@@ -2,12 +2,19 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="248.0" prefWidth="366.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.soraya.views.VentanaLogin">
    <children>
-      <Button fx:id="btnAceptar" layoutX="327.0" layoutY="160.0" mnemonicParsing="false" onAction="#salvaCuenta" prefHeight="25.0" prefWidth="83.0" text="Aceptar" AnchorPane.bottomAnchor="63.0" AnchorPane.rightAnchor="50.0" />
-      <TextField fx:id="tfEmail" layoutX="137.0" layoutY="75.0" prefHeight="25.0" prefWidth="274.0" promptText="Usuario" text="sorayadamdi@gmail.com" AnchorPane.bottomAnchor="150.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="73.0" />
-      <TextField fx:id="tfPassword" accessibleRole="PASSWORD_FIELD" layoutX="137.0" layoutY="109.0" prefHeight="25.0" prefWidth="274.0" promptText="Contraseña" text="Estrella3." AnchorPane.bottomAnchor="112.0" AnchorPane.rightAnchor="50.0" />
+      <Button fx:id="btnAceptar" layoutX="237.0" layoutY="196.0" mnemonicParsing="false" onAction="#salvaCuenta" prefHeight="25.0" prefWidth="83.0" text="Aceptar" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="46.0" />
+      <TextField fx:id="tfEmail" layoutX="46.0" layoutY="112.0" prefHeight="25.0" prefWidth="274.0" promptText="Usuario" text="sorayadamdi@gmail.com" AnchorPane.bottomAnchor="111.0" AnchorPane.leftAnchor="46.0" AnchorPane.rightAnchor="46.0" AnchorPane.topAnchor="112.0" />
+      <TextField fx:id="tfPassword" accessibleRole="PASSWORD_FIELD" layoutX="46.0" layoutY="150.0" prefHeight="25.0" prefWidth="274.0" promptText="Contraseña" text="Estrella3." AnchorPane.bottomAnchor="73.0" AnchorPane.leftAnchor="46.0" AnchorPane.rightAnchor="46.0" AnchorPane.topAnchor="150.0" />
+      <ImageView fitHeight="80.0" fitWidth="232.0" layoutX="137.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="145.0" AnchorPane.leftAnchor="137.0" AnchorPane.rightAnchor="87.21427917480469" AnchorPane.topAnchor="23.0">
+         <image>
+            <Image url="@res/logo_lockup_gmail_icon_horizontal.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

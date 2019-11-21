@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -7,6 +8,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -36,7 +38,7 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="395.0" prefWidth="678.0" VBox.vgrow="ALWAYS">
          <children>
-            <SplitPane dividerPositions="0.000005" prefHeight="375.0" prefWidth="640.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <SplitPane dividerPositions="5.0E-6" prefHeight="375.0" prefWidth="640.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="353.0" prefWidth="40.0">
                      <children>
@@ -69,9 +71,14 @@
                                     </TableView>
                                  </children>
                               </AnchorPane>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="179.0" prefWidth="464.0">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="144.0" prefWidth="610.0">
                                  <children>
-                                    <WebView fx:id="wvMensaje" prefHeight="200.0" prefWidth="545.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <WebView fx:id="wvMensaje" prefHeight="0.0" prefWidth="610.0" AnchorPane.bottomAnchor="243.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <ToolBar prefHeight="31.0" prefWidth="610.0">
+                                      <items>
+                                        <Button mnemonicParsing="false" text="Button" />
+                                      </items>
+                                    </ToolBar>
                                  </children></AnchorPane>
                           </items>
                         </SplitPane>

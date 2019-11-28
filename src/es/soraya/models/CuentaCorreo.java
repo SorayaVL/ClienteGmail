@@ -12,7 +12,6 @@ public class CuentaCorreo {
     private Message message;
 
 
-
     public CuentaCorreo() {
     }
 
@@ -38,7 +37,7 @@ public class CuentaCorreo {
         this.store = store;
     }
 
-  public String getEmail() {
+    public String getEmail() {
         return email;
     }
 

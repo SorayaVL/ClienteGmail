@@ -7,6 +7,7 @@ import es.soraya.models.EmailTreeItem;
 import es.soraya.models.Emails;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -31,9 +32,7 @@ public class VentanaPrincipal extends BaseController implements Initializable {
     private TreeView<String> treeFolders;
     @FXML
     private Button btnEliminar;
-    private ArrayList<Message> listMensajes = new ArrayList<Message>();
     private Message mensaje;
-    private Message[] listaMensajes;
     private CuentaCorreo cuentaCorreo;
     private Folder folder;
 
@@ -97,9 +96,11 @@ public class VentanaPrincipal extends BaseController implements Initializable {
         });
     }
 
+    @FXML
+    void altaCuenta(ActionEvent event) {
+        cargarDialogo("AltaCuenta.fxml",false,500, 300);
+        abrirDialogo(true);
 
-
-
-
+    }
 
 }

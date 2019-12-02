@@ -15,7 +15,7 @@ public class BaseController {
 
     // private void cargar Stage (Parent root, int an)
 
-      public BaseController cargarDialogo (String fxml, boolean maximizado, int anchura, int altura) {
+    public BaseController cargarDialogo(String fxml, int ancho, int alto, String titulo) {
 
         try {
             //carga el fxml
@@ -24,8 +24,9 @@ public class BaseController {
             BaseController controller = fxmlLoader.getController();
             stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-            if (maximizado) stage.setMaximized(true);
-            else stage.setScene(new Scene(root, anchura, altura));
+            stage.setTitle(titulo);
+            stage.setScene(new Scene(root, ancho, alto));
+
             return controller;
 
         } catch (IOException e) {
@@ -36,7 +37,8 @@ public class BaseController {
     }
 
     //ctrl+q para abrir la ayuda de los comentarios
-    protected void abrirDialogo (boolean showAndWait){
+    protected void abrirDialogo(boolean showAndWait, boolean maximizado) {
+        if (maximizado) stage.setMaximized(true);
         if (showAndWait) stage.showAndWait();
         else stage.show();
     }

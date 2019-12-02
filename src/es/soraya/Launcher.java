@@ -14,7 +14,7 @@ public class Launcher extends Application {
     @Override
     public void start(Stage stage) throws Exception {
             Parent root = FXMLLoader.load(getClass().getResource("views/VentanaPrincipal.fxml"));
-            stage.setTitle("Pantalla Principal");
+            stage.setTitle("Gestor Gmail");
             stage.setScene(new Scene(root));
             stage.setMaximized(true);
             stage.show();

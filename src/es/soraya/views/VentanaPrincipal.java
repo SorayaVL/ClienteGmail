@@ -1,5 +1,10 @@
 package es.soraya.views;
 
+/*Javadoc offline
+
+Descargar la carpeta con el Javadoc en el Git aparece.
+Dentro de la carpeta del Javadoc seleccionar todas las carpetas por separado dar OK y decir que es Javadoc.*/
+
 import es.soraya.logica.GestionCuenta;
 import es.soraya.logica.Logica;
 import es.soraya.models.CuentaCorreo;
@@ -32,15 +37,19 @@ public class VentanaPrincipal extends BaseController implements Initializable {
     private TreeView<String> treeFolders;
     @FXML
     private Button btnEliminar;
+    @FXML
+    private Button btnEscribir;
+
     private Message mensaje;
     private CuentaCorreo cuentaCorreo;
     private Folder folder;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if (Logica.getINSTANCE().ListaCuentas.isEmpty()) {
-            cargarDialogo("VentanaLogin.fxml", false,400, 250);
-            abrirDialogo(true);
+        Logica.getINSTANCE().abreFichero();
+        if (Logica.getINSTANCE().listaCuentas.isEmpty()) {
+            cargarDialogo("VentanaLogin.fxml", 400, 250, "Login");
+            abrirDialogo(true, false);
         }
 
         try {
@@ -53,8 +62,8 @@ public class VentanaPrincipal extends BaseController implements Initializable {
                 public void changed(ObservableValue<? extends TreeItem<String>> observableValue, TreeItem<String> oldValue, TreeItem<String> newValue) {
                     try {
                         if ((((EmailTreeItem) newValue).getFolder())!=null)
-                        GestionCuenta.getINSTANCE().listaEmails((((EmailTreeItem) newValue).getFolder()).getFullName(), Logica.getINSTANCE().ListaCuentas.get(0));
-                        cuentaCorreo = Logica.getINSTANCE().ListaCuentas.get(0);
+                        GestionCuenta.getINSTANCE().listaEmails((((EmailTreeItem) newValue).getFolder()).getFullName(), Logica.getINSTANCE().listaCuentas.get(0));
+                        cuentaCorreo = Logica.getINSTANCE().listaCuentas.get(0);
                         folder= ((EmailTreeItem) newValue).getFolder();
                     } catch (MessagingException e) {
                         e.printStackTrace();
@@ -97,10 +106,18 @@ public class VentanaPrincipal extends BaseController implements Initializable {
     }
 
     @FXML
-    void altaCuenta(ActionEvent event) {
-        cargarDialogo("AltaCuenta.fxml",false,500, 300);
-        abrirDialogo(true);
+    void gestionCuenta(ActionEvent event) {
+        cargarDialogo("GestionCuenta.fxml",500, 300, "Gestión Cuentas");
+        abrirDialogo(true, false);
 
     }
+
+    @FXML
+    void nuevoEmail(ActionEvent event) {
+        cargarDialogo("EscribirEmail.fxml",1000,800, "Nuevo Mensaje");
+        abrirDialogo(true, true);
+
+    }
+
 
 }

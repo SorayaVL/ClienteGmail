@@ -64,7 +64,6 @@ public class Emails extends CuentaCorreo {
         this.mensaje = mensaje;
     }
 
-
     public CuentaCorreo getCuentaCorreo() {
         return cuentaCorreo;
     }

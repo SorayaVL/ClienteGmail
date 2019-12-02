@@ -25,6 +25,7 @@ public class VentanaLogin extends BaseController{
         void salvaCuenta(ActionEvent event) {
                 CuentaCorreo cuenta = new CuentaCorreo(tfEmail.getText(), tfPassword.getText());
                 Logica.getINSTANCE().aniadirCuenta(cuenta);
+                Logica.getINSTANCE().guardarFichero();
                 Stage stage= ((Stage)((Node) event.getSource()).getScene().getWindow());
                 stage.close();
         }

@@ -4,6 +4,7 @@ import com.sun.mail.imap.IMAPFolder;
 import es.soraya.models.EmailTreeItem;
 import es.soraya.models.Emails;
 import es.soraya.models.CuentaCorreo;
+import org.apache.commons.mail.*;
 import org.apache.commons.mail.util.MimeMessageParser;
 
 import javax.mail.*;
@@ -33,6 +34,7 @@ public class GestionCuenta {
         Session session = Session.getDefaultInstance(props, null);
         cuentaCorreo.setStore(session.getStore("imaps"));
         cuentaCorreo.getStore().connect("imap.googlemail.com", cuentaCorreo.getEmail(), cuentaCorreo.getPassword());
+        System.out.println("Metodo abrir cuenta");
     }
 
     /**
@@ -47,7 +49,7 @@ public class GestionCuenta {
      */
 
     public void listaEmails(String folderName, CuentaCorreo cuentaCorreo) throws MessagingException {
-        Logica.getINSTANCE().ListaCorreo.clear();
+        Logica.getINSTANCE().listaCorreo.clear();
         IMAPFolder folder = (IMAPFolder) cuentaCorreo.getStore().getFolder(folderName);
         if (folder.getType() != 2) {
             if (!folder.isOpen()) {
@@ -91,14 +93,18 @@ public class GestionCuenta {
 
     public String leerMensaje(Message mensaje) {
         try {
+            System.out.println(mensaje.getContentType());
             MimeMessage mimeMessage = (MimeMessage) mensaje;
             MimeMessageParser parser = new MimeMessageParser(mimeMessage);
             parser.parse();
             String content = parser.getHtmlContent();
+
             if (content == null) {
-                return parser.parse().getPlainContent();
+                System.out.println(parser.getPlainContent());
+                return parser.getPlainContent();
 
             } else {
+                System.out.println("Mensaje HTML");
                 return content;
             }
 
@@ -106,8 +112,8 @@ public class GestionCuenta {
             e.printStackTrace();
             return "";
         }
-
     }
+
 
     public void eliminarMensaje (Message message, CuentaCorreo cuentaCorreo, Folder folder){
         try {
@@ -121,6 +127,30 @@ public class GestionCuenta {
             e.printStackTrace();
         }
 
+
+        }
+
+    public void emailSet (String usuario, String password, String de, String[] para, String[] cC, String[] bCC,
+                          String asunto, String mensaje){
+        try {
+            Email email = new SimpleEmail();
+            email.setHostName("smtp.googlemail.com");
+            email.setSmtpPort(465);
+            email.setAuthenticator(new DefaultAuthenticator(usuario, password));
+            email.setSSLOnConnect(true);
+            email.setFrom(de);
+            email.addTo(para);
+            if (cC.length>1)
+                email.addCc(cC);
+            if (bCC.length>1)
+                email.addBcc(bCC);
+            email.setSubject(asunto);
+            email.setMsg(mensaje);
+            System.out.println("Mensaje enviado con exito");
+            email.send();
+        } catch (EmailException e) {
+            e.printStackTrace();
+        }
 
     }
 

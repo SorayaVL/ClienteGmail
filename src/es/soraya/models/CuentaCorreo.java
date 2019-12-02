@@ -2,9 +2,10 @@ package es.soraya.models;
 
 import javax.mail.Message;
 import javax.mail.Store;
+import java.io.Serializable;
 
 
-public class CuentaCorreo {
+public class CuentaCorreo implements Serializable {
 
     private String email;
     private String password;

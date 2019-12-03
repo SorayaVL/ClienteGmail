@@ -20,10 +20,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import org.apache.commons.mail.Email;
 
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -47,29 +49,32 @@ public class VentanaPrincipal extends BaseController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Logica.getINSTANCE().abreFichero();
-        if (Logica.getINSTANCE().listaCuentas.isEmpty()) {
+        if (Logica.getINSTANCE().olistaCuentas.isEmpty()) {
             cargarDialogo("VentanaLogin.fxml", 400, 250, "Login");
             abrirDialogo(true, false);
         }
 
         try {
-            GestionCuenta.getINSTANCE().abrirCuenta(Logica.getINSTANCE().getListaCuentas().get(0));
-            EmailTreeItem root = GestionCuenta.getINSTANCE().cargaCarpetas(Logica.getINSTANCE().getListaCuentas().get(0));
-            treeFolders.setRoot(root);
-            treeFolders.setShowRoot(true);
-            treeFolders.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<String>>() {
-                @Override
-                public void changed(ObservableValue<? extends TreeItem<String>> observableValue, TreeItem<String> oldValue, TreeItem<String> newValue) {
-                    try {
-                        if ((((EmailTreeItem) newValue).getFolder())!=null)
-                        GestionCuenta.getINSTANCE().listaEmails((((EmailTreeItem) newValue).getFolder()).getFullName(), Logica.getINSTANCE().listaCuentas.get(0));
-                        cuentaCorreo = Logica.getINSTANCE().listaCuentas.get(0);
-                        folder= ((EmailTreeItem) newValue).getFolder();
-                    } catch (MessagingException e) {
-                        e.printStackTrace();
+            for (int i = 0; i < Logica.getINSTANCE().olistaCuentas.size(); i++) {
+                int valor = i;
+                GestionCuenta.getINSTANCE().abrirCuenta(Logica.getINSTANCE().getListaCuentas().get(valor));
+                EmailTreeItem root = GestionCuenta.getINSTANCE().cargaCarpetas(Logica.getINSTANCE().getListaCuentas().get(valor));
+                treeFolders.setRoot(root);
+                treeFolders.setShowRoot(true);
+                treeFolders.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<String>>() {
+                    @Override
+                    public void changed(ObservableValue<? extends TreeItem<String>> observableValue, TreeItem<String> oldValue, TreeItem<String> newValue) {
+                        try {
+                            if ((((EmailTreeItem) newValue).getFolder()) != null)
+                                GestionCuenta.getINSTANCE().listaEmails((((EmailTreeItem) newValue).getFolder()).getFullName(), Logica.getINSTANCE().olistaCuentas.get(valor));
+                            cuentaCorreo = Logica.getINSTANCE().olistaCuentas.get(valor);
+                            folder = ((EmailTreeItem) newValue).getFolder();
+                        } catch (MessagingException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-            });
+                });
+
             tvMensajes.setItems(Logica.getINSTANCE().getListaCorreo());
             WebEngine webEngine;
             webEngine = wvMensaje.getEngine();
@@ -79,10 +84,10 @@ public class VentanaPrincipal extends BaseController implements Initializable {
                 public void changed(ObservableValue<? extends Emails> observableValue, Emails emails, Emails email) {
                     try {
                         if (email!=null){
-                            webEngine.loadContent(GestionCuenta.getINSTANCE().leerMensaje(email.getMensaje()));
-                            mensaje=email.getMensaje();
+                            String contenido = GestionCuenta.getINSTANCE().leerMensaje(email.getMensaje());
+                            webEngine.loadContent(contenido);
+                            mensaje= email.getMensaje();
                         }
-
                         else
                             webEngine.loadContent("");
 
@@ -92,7 +97,7 @@ public class VentanaPrincipal extends BaseController implements Initializable {
 
                 }
             });
-
+            }
         } catch (MessagingException e) {
             e.printStackTrace();
         }
@@ -103,11 +108,12 @@ public class VentanaPrincipal extends BaseController implements Initializable {
                 GestionCuenta.getINSTANCE().eliminarMensaje(mensaje, cuentaCorreo, folder);
             }
         });
+
     }
 
     @FXML
     void gestionCuenta(ActionEvent event) {
-        cargarDialogo("GestionCuenta.fxml",500, 300, "Gestión Cuentas");
+        cargarDialogo("ModificaCuenta.fxml",500, 300, "Gestión Cuentas");
         abrirDialogo(true, false);
 
     }
@@ -118,6 +124,24 @@ public class VentanaPrincipal extends BaseController implements Initializable {
         abrirDialogo(true, true);
 
     }
+
+    @FXML
+    void reenviaMensaje(ActionEvent event) throws IOException, MessagingException {
+        cargarDialogo("EscribirEmail.fxml",1000, 800, "Reenviar Mensaje");
+        EscribirEmail controller = (EscribirEmail)cargarDialogo("EscribirEmail.fxml",1000, 800, "Reenviar Mensaje");
+        controller.setMensajeReenviar(mensaje);
+        abrirDialogo(true,true);
+
+    }
+
+    @FXML
+    void respondeMail(ActionEvent event) throws MessagingException {
+        cargarDialogo("EscribirEmail.fxml",1000,800, "Responder Mensaje");
+        EscribirEmail controller = (EscribirEmail)cargarDialogo("EscribirEmail.fxml",1000, 800, "Responder Mensaje");
+        controller.setMensajeResponder(mensaje);
+        abrirDialogo(true, true);
+    }
+
 
 
 }

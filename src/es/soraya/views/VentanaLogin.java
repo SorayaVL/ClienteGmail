@@ -9,8 +9,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.Serializable;
 
-public class VentanaLogin extends BaseController{
+
+public class VentanaLogin extends BaseController implements Serializable {
 
         @FXML
         private Button btnAceptar;

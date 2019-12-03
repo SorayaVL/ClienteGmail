@@ -15,6 +15,7 @@ public class GestionCuenta {
     private static GestionCuenta INSTANCE = null;
     private IMAPFolder folder;
     private Message[] listaMensajes;
+    private Store store;
 
     public GestionCuenta() {
     }
@@ -32,8 +33,10 @@ public class GestionCuenta {
         Properties props = System.getProperties();
         props.setProperty("mail.store.protocol", "imaps");
         Session session = Session.getDefaultInstance(props, null);
-        cuentaCorreo.setStore(session.getStore("imaps"));
-        cuentaCorreo.getStore().connect("imap.googlemail.com", cuentaCorreo.getEmail(), cuentaCorreo.getPassword());
+        store = session.getStore("imaps");
+        //cuentaCorreo.setStore(session.getStore("imaps"));
+       // cuentaCorreo.getStore().connect("imap.googlemail.com", cuentaCorreo.getEmail(), cuentaCorreo.getPassword());
+        store.connect("imap.googlemail.com", cuentaCorreo.getEmail(), cuentaCorreo.getPassword());
         System.out.println("Metodo abrir cuenta");
     }
 
@@ -50,7 +53,8 @@ public class GestionCuenta {
 
     public void listaEmails(String folderName, CuentaCorreo cuentaCorreo) throws MessagingException {
         Logica.getINSTANCE().listaCorreo.clear();
-        IMAPFolder folder = (IMAPFolder) cuentaCorreo.getStore().getFolder(folderName);
+       // IMAPFolder folder = (IMAPFolder) cuentaCorreo.getStore().getFolder(folderName);
+        IMAPFolder folder = (IMAPFolder) store.getFolder(folderName);
         if (folder.getType() != 2) {
             if (!folder.isOpen()) {
                 folder.open(Folder.READ_WRITE);
@@ -68,7 +72,7 @@ public class GestionCuenta {
 
 
     public EmailTreeItem cargaCarpetas(CuentaCorreo cuentaCorreo) throws MessagingException {
-        Folder[] folders = cuentaCorreo.getStore().getDefaultFolder().list();
+        Folder[] folders = store.getDefaultFolder().list();
         EmailTreeItem rootItem = new EmailTreeItem(cuentaCorreo, cuentaCorreo.getEmail(), folder);
         rootItem.setExpanded(true);
         getFolder(folders, rootItem, cuentaCorreo);
@@ -100,11 +104,9 @@ public class GestionCuenta {
             String content = parser.getHtmlContent();
 
             if (content == null) {
-                System.out.println(parser.getPlainContent());
                 return parser.getPlainContent();
 
             } else {
-                System.out.println("Mensaje HTML");
                 return content;
             }
 
@@ -119,7 +121,7 @@ public class GestionCuenta {
         try {
             if (!folder.isOpen()) {
                 folder.open(Folder.READ_WRITE);
-                IMAPFolder folderBasura = (IMAPFolder) cuentaCorreo.getStore().getFolder("[Gmail]/Trash");
+                IMAPFolder folderBasura = (IMAPFolder) store.getFolder("[Gmail]/Trash");
                 folder.copyMessages(new Message[]{message}, folderBasura);
             }
 
@@ -140,9 +142,9 @@ public class GestionCuenta {
             email.setSSLOnConnect(true);
             email.setFrom(de);
             email.addTo(para);
-            if (cC.length>1)
+            if (!(cC == null))
                 email.addCc(cC);
-            if (bCC.length>1)
+            if (!(bCC==null))
                 email.addBcc(bCC);
             email.setSubject(asunto);
             email.setMsg(mensaje);

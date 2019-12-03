@@ -13,6 +13,7 @@ public class Logica implements Serializable{
 
     private static Logica INSTANCE = null;
     private List<CuentaCorreo> listaCuentasList = new ArrayList<CuentaCorreo>();
+    private File file = new File("cuentas.txt");
 
     public Logica() {
     }
@@ -28,10 +29,10 @@ public class Logica implements Serializable{
     public ObservableList<Emails> listaCorreo = FXCollections.observableArrayList();
 
     public ObservableList<CuentaCorreo> getListaCuentas() {
-        return listaCuentas;
+        return olistaCuentas;
     }
 
-    public ObservableList<CuentaCorreo> listaCuentas = FXCollections.observableArrayList();
+    public ObservableList<CuentaCorreo> olistaCuentas = FXCollections.observableArrayList();
 
     public ObservableList<Emails> getListaCorreo() {
         return listaCorreo;
@@ -42,33 +43,33 @@ public class Logica implements Serializable{
     }
 
     public void aniadirCuenta(CuentaCorreo cuentaCorreo) {
-        listaCuentas.add(cuentaCorreo);
+        olistaCuentas.add(cuentaCorreo);
     }
 
 
     public void guardarFichero() {
-        listaCuentasList =new ArrayList<CuentaCorreo>(listaCuentas);
-
+        listaCuentasList =new ArrayList<CuentaCorreo>(olistaCuentas);
         try {
-            ObjectOutputStream fichero = new ObjectOutputStream(new FileOutputStream("cuentas.txt"));
+            ObjectOutputStream fichero = new ObjectOutputStream(new FileOutputStream(file));
             fichero.writeObject(listaCuentasList);
-            System.out.println("salvada cuenta");
             fichero.close();
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
     }
 
     public void abreFichero() {
         try {
-            System.out.println("Estoy en abre fichero");
-            ObjectInputStream cargaFichero = new ObjectInputStream(new FileInputStream("cuentas.txt"));
-            listaCuentasList = (ArrayList) cargaFichero.readObject();
-            cargaFichero.close();
-            for (CuentaCorreo cuentaCorreo : listaCuentasList){
-                aniadirCuenta(cuentaCorreo);
-                System.out.println("añadida cuenta");
+            if (file.length() > 0) {
+                ObjectInputStream cargaFichero = new ObjectInputStream(new FileInputStream(file));
+                listaCuentasList = (ArrayList) cargaFichero.readObject();
+                cargaFichero.close();
+                for (CuentaCorreo cuentaCorreo : listaCuentasList){
+                    aniadirCuenta(cuentaCorreo);
+                }
             }
+
+
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

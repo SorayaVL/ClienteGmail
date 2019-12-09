@@ -21,8 +21,7 @@
       <menus>
         <Menu mnemonicParsing="false" text="Archivo">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#gestionCuenta" text="Nueva Cuenta..." />
-            <MenuItem mnemonicParsing="false" text="Open…" />
+            <MenuItem mnemonicParsing="false" onAction="#gestionCuenta" text="Gestionar Cuentas..." />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Editar">
@@ -54,16 +53,15 @@
                                  <children>
                                     <TableView fx:id="tvMensajes" prefHeight="140.0" prefWidth="464.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <columns>
-                                        <TableColumn prefWidth="150.0" text="De">
+                                        <TableColumn prefWidth="150.0" sortable="false" text="De">
                                             <cellValueFactory><PropertyValueFactory property="from" />
                                             </cellValueFactory>
                                         </TableColumn>
-                                        <TableColumn prefWidth="274.0" text="Asunto">
+                                        <TableColumn prefWidth="274.0" sortable="false" text="Asunto">
                                             <cellValueFactory><PropertyValueFactory property="subject" />
                                             </cellValueFactory>
-
                                         </TableColumn>
-                                        <TableColumn minWidth="4.0" prefWidth="119.0" text="Fecha">
+                                        <TableColumn minWidth="4.0" prefWidth="119.0" sortType="DESCENDING" text="Fecha">
                                             <cellValueFactory><PropertyValueFactory property="date" />
                                             </cellValueFactory>
 

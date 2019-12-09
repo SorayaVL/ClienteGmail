@@ -13,7 +13,7 @@ public class Logica implements Serializable{
 
     private static Logica INSTANCE = null;
     private List<CuentaCorreo> listaCuentasList = new ArrayList<CuentaCorreo>();
-    private File file = new File("cuentas.txt");
+    private File file = new File("cuentas.dat");
 
     public Logica() {
     }

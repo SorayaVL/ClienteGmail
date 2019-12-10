@@ -36,6 +36,7 @@ public class GestionCuenta {
 
     /**
      * Método para abrir cada una de las cuentas de correo de Gmail
+     *
      * @param cuentaCorreo
      */
 
@@ -85,6 +86,7 @@ public class GestionCuenta {
     /**
      * Método que actualiza la tabla de la venta con la lista de los emails por cada carpeta.
      * Comrpueba que se haya seleccionado a alguna carpeta para poder cargar la lista de mails.
+     *
      * @param folder
      */
     public void actualizarTabla(Folder folder) {
@@ -163,10 +165,16 @@ public class GestionCuenta {
         }
     }
 
-
+    /**
+     * Método que saca por pantalla un mensaje.
+     * Dado un mensaje, el método verifica si se trata de un mensaje de texto plano o un mensaje HTML
+     * el método de vuelve en un String el mensaje que se pasará al Webview de la pantalla principal para poder visualizarlo.
+     *
+     * @param mensaje
+     * @return
+     */
     public String leerMensaje(Message mensaje) {
         try {
-            System.out.println(mensaje.getContentType());
             MimeMessage mimeMessage = (MimeMessage) mensaje;
             MimeMessageParser parser = new MimeMessageParser(mimeMessage);
             parser.parse();
@@ -185,6 +193,12 @@ public class GestionCuenta {
         }
     }
 
+    /**
+     * Método para eliminar un mensaje, si el mensaje está en una carpeta diferente de "trash" se moverá a esta carpeta
+     * si el mensaje ya se encuentra en la carpeta "Trash" se elimina completamente.
+     *
+     * @param message
+     */
 
 
     public void eliminarMensaje(Message message) {
@@ -194,17 +208,15 @@ public class GestionCuenta {
             try {
                 if (!folder.isOpen())
                     folder.open(Folder.READ_WRITE);
-                if (!folder.getName().equals("[Gmail]/Trash")){
+                if (!folder.getName().equals("[Gmail]/Trash")) {
                     IMAPFolder folderBasura = (IMAPFolder) store.getFolder("[Gmail]/Trash");
                     folder.copyMessages(new Message[]{message}, folderBasura);
                     folder.close();
-                }
-                else {
+                } else {
                     message.setFlag(Flags.Flag.DELETED, true);
                     folder.close();
 
                 }
-
 
 
             } catch (MessagingException e) {
@@ -214,7 +226,18 @@ public class GestionCuenta {
 
     }
 
-
+    /**
+     * Método que envía un mensaje de texto plano, utilizando la librería de commons.Mail
+     *
+     * @param usuario
+     * @param password
+     * @param de
+     * @param para
+     * @param cC
+     * @param bCC
+     * @param asunto
+     * @param mensaje
+     */
 
     public void emailSet(String usuario, String password, String de, String[] para, String[] cC, String[] bCC,
                          String asunto, String mensaje) {

@@ -9,7 +9,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Logica implements Serializable{
+public class Logica implements Serializable {
 
     private static Logica INSTANCE = null;
     private List<CuentaCorreo> listaCuentasList = new ArrayList<CuentaCorreo>();
@@ -48,7 +48,7 @@ public class Logica implements Serializable{
 
 
     public void guardarFichero() {
-        listaCuentasList =new ArrayList<CuentaCorreo>(olistaCuentas);
+        listaCuentasList = new ArrayList<CuentaCorreo>(olistaCuentas);
         try {
             ObjectOutputStream fichero = new ObjectOutputStream(new FileOutputStream(file));
             fichero.writeObject(listaCuentasList);
@@ -64,11 +64,10 @@ public class Logica implements Serializable{
                 ObjectInputStream cargaFichero = new ObjectInputStream(new FileInputStream(file));
                 listaCuentasList = (ArrayList) cargaFichero.readObject();
                 cargaFichero.close();
-                for (CuentaCorreo cuentaCorreo : listaCuentasList){
+                for (CuentaCorreo cuentaCorreo : listaCuentasList) {
                     aniadirCuenta(cuentaCorreo);
                 }
             }
-
 
 
         } catch (FileNotFoundException e) {

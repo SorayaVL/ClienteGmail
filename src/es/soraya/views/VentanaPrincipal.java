@@ -47,7 +47,8 @@ public class VentanaPrincipal extends BaseController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Logica.getINSTANCE().abreFichero();
-        if (Logica.getINSTANCE().olistaCuentas.isEmpty()) {
+        if (Logica.getINSTANCE().olistaCuentas.isEmpty()) { // si no tenemos ninguna cuenta almacenada nos carga la venta de añadir una cuenta,
+            // si no directamente nos cargará la ventana principal.
             cargarDialogo("VentanaLogin.fxml", 400, 250, "Login");
             abrirDialogo(true, false);
         }
@@ -60,8 +61,8 @@ public class VentanaPrincipal extends BaseController implements Initializable {
                 @Override
                 public void changed(ObservableValue<? extends TreeItem<String>> observableValue, TreeItem<String> oldValue, TreeItem<String> newValue) {
                     try {
-                        if ((((EmailTreeItem) newValue).getFolder()) != null){
-                            CarpetasService carpetasService = new CarpetasService();
+                        if ((((EmailTreeItem) newValue).getFolder()) != null) {
+                            CarpetasService carpetasService = new CarpetasService();// crea el servicio para cargar el Thread
                             carpetasService.start();
                             carpetasService.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
                                 @Override
@@ -78,11 +79,10 @@ public class VentanaPrincipal extends BaseController implements Initializable {
                                     progressIndicator.progressProperty().bind(carpetasService.progressProperty());
                                 }
                             });
-                          //  GestionCuenta.getINSTANCE().listaEmails((((EmailTreeItem) newValue).getFolder()));
 
                         }
 
-                           folder = ((EmailTreeItem) newValue).getFolder();
+                        folder = ((EmailTreeItem) newValue).getFolder();
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -93,16 +93,15 @@ public class VentanaPrincipal extends BaseController implements Initializable {
             tvMensajes.setItems(Logica.getINSTANCE().getListaCorreo());
             tvMensajes.setRowFactory(new Callback<TableView<Emails>, TableRow<Emails>>() {
                 @Override
-                public TableRow<Emails> call(TableView<Emails> emailsTableView) {
-                    return new TableRow<>()
-                    {
+                public TableRow<Emails> call(TableView<Emails> emailsTableView) { //Método que nos marcará los mensajes no leídos en negrita
+                    return new TableRow<>() {
                         @Override
                         protected void updateItem(Emails emails, boolean b) {
                             super.updateItem(emails, b);
-                            if(emails!=null){
+                            if (emails != null) {
                                 if (!emails.isRead())
                                     setStyle("-fx-font-weight:bold");
-                            }else
+                            } else
                                 setStyle("");
                         }
                     };

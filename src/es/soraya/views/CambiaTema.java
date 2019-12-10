@@ -16,7 +16,7 @@ public class CambiaTema extends BaseController implements Initializable {
 
     @FXML
     void cambiaTema(ActionEvent event) {
-        if (temaCB.getSelectionModel().getSelectedItem()!=null)
+        if (temaCB.getSelectionModel().getSelectedItem() != null)
             Application.setUserAgentStylesheet(temaCB.getSelectionModel().getSelectedItem());
     }
 

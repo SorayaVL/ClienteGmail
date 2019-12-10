@@ -10,11 +10,11 @@ module ClienteGmail {
     requires commons.email;
 
 
-
     exports es.soraya.models;
     exports es.soraya.logica;
     exports es.soraya.views;
     exports es.soraya;
 
     opens es.soraya.views to javafx.fxml;
+
 }

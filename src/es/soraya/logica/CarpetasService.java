@@ -4,7 +4,7 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
 
-public class CarpetasService extends Service <Integer> {
+public class CarpetasService extends Service<Integer> {
 
     public CarpetasService() {
     }
@@ -15,7 +15,7 @@ public class CarpetasService extends Service <Integer> {
             @Override
             public Integer call() throws Exception {
                 int i;
-                for (i=0; i<500;i++){
+                for (i = 0; i < 500; i++) {
                     updateProgress(i, 500);
                     Thread.sleep(2);
                 }

@@ -51,8 +51,8 @@ public class EscribirEmail extends BaseController implements Initializable {
     private Message mensaje;
     private String cuerpoMail;
     private String[] para;
-    String[] cC=null;
-    String[] cCO=null;
+    String[] cC = null;
+    String[] cCO = null;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -81,26 +81,26 @@ public class EscribirEmail extends BaseController implements Initializable {
     }
 
     public void setMensajeReenviar(Message mensajeReenviar) throws IOException, MessagingException {
-        if (mensajeReenviar!=null){
-            tfAsunto.setText("RE: "+mensajeReenviar.getSubject());
-            htmlMensaje.setHtmlText(cuerpoMail= GestionCuenta.getINSTANCE().leerMensaje(mensajeReenviar));
+        if (mensajeReenviar != null) {
+            tfAsunto.setText("RE: " + mensajeReenviar.getSubject());
+            htmlMensaje.setHtmlText(cuerpoMail = GestionCuenta.getINSTANCE().leerMensaje(mensajeReenviar));
         }
 
     }
 
-    public void setMensajeResponder (Message mensajeResponder) throws MessagingException {
-        if (mensajeResponder!=null){
+    public void setMensajeResponder(Message mensajeResponder) throws MessagingException {
+        if (mensajeResponder != null) {
             tfPara.setText(Arrays.toString(mensajeResponder.getFrom()));
-            tfAsunto.setText("RE: "+mensajeResponder.getSubject());
-            htmlMensaje.setHtmlText(cuerpoMail= GestionCuenta.getINSTANCE().leerMensaje(mensajeResponder));
+            tfAsunto.setText("RE: " + mensajeResponder.getSubject());
+            htmlMensaje.setHtmlText(cuerpoMail = GestionCuenta.getINSTANCE().leerMensaje(mensajeResponder));
         }
 
     }
 
 
-    private void nuevoMensaje(){
-         cuerpoMail = pasaTexto(htmlMensaje.getHtmlText());
-         para= tfPara.getText().split(Pattern.quote(","));
+    private void nuevoMensaje() {
+        cuerpoMail = pasaTexto(htmlMensaje.getHtmlText());
+        para = tfPara.getText().split(Pattern.quote(","));
         if (!tfCC.getText().equals(""))
             cC = tfCC.getText().split(Pattern.quote(","));
         if (!tfCCO.getText().equals(""))
@@ -110,6 +110,7 @@ public class EscribirEmail extends BaseController implements Initializable {
                         tfAsunto.getText(), cuerpoMail);
 
     }
+
     private static String pasaTexto(String htmlTexto) {
         String resultado;
         Pattern pattern = Pattern.compile("<[^>]*>");

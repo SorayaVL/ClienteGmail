@@ -4,12 +4,10 @@ import java.io.Serializable;
 
 
 public class CuentaCorreo implements Serializable {
-    private static final long serialVersionUID= -5205807225694005213L;
+    private static final long serialVersionUID = -5205807225694005213L;
 
     private String email;
     private String password;
-
-
 
 
     public CuentaCorreo() {

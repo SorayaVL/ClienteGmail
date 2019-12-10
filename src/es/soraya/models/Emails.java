@@ -102,12 +102,19 @@ public class Emails extends CuentaCorreo {
 
     }
 
-    public boolean isRead()  {
+    /**
+     * Verifica si un mensaje está leído o no
+     *
+     * @return
+     */
+
+    public boolean isRead() {
         try {
             return mensaje.isSet(Flags.Flag.SEEN);
         } catch (MessagingException e) {
             e.printStackTrace();
-        }return true;
+        }
+        return true;
     }
 }
 

@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 import javax.mail.*;
 import java.io.IOException;
 
@@ -13,11 +14,11 @@ public class Launcher extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-            Parent root = FXMLLoader.load(getClass().getResource("views/VentanaPrincipal.fxml"));
-            stage.setTitle("Gestor Gmail");
-            stage.setScene(new Scene(root));
-            stage.setMaximized(true);
-            stage.show();
+        Parent root = FXMLLoader.load(getClass().getResource("views/VentanaPrincipal.fxml"));
+        stage.setTitle("Gestor Gmail");
+        stage.setScene(new Scene(root));
+        stage.setMaximized(true);
+        stage.show();
 
     }
 

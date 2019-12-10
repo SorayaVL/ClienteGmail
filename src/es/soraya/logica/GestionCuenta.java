@@ -1,25 +1,24 @@
 package es.soraya.logica;
 
+
 import com.sun.mail.imap.IMAPFolder;
 import es.soraya.models.EmailTreeItem;
 import es.soraya.models.Emails;
 import es.soraya.models.CuentaCorreo;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
 import org.apache.commons.mail.*;
 import org.apache.commons.mail.util.MimeMessageParser;
 
 import javax.mail.*;
 import javax.mail.internet.MimeMessage;
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 public class GestionCuenta {
     private static GestionCuenta INSTANCE = null;
-    private IMAPFolder folder;
     private Message[] listaMensajes;
+    private Folder folder;
     private Store store;
     private TreeItem rootItem;
     private List<TreeItem<String>> listaTreeitem = new ArrayList<>();
@@ -64,58 +63,57 @@ public class GestionCuenta {
         // IMAPFolder folder = (IMAPFolder) cuentaCorreo.getStore().getFolder(folderName);
         try {
             if (folder.getType() != 2) {
-                if (!folder.isOpen()) {
+                if (!folder.isOpen())
                     folder.open(Folder.READ_WRITE);
-                    listaMensajes = folder.getMessages();
-                    for (int i = 0; i < listaMensajes.length; i++) {
-                        Message mensaje = listaMensajes[i];
-                        Emails correo = new Emails(mensaje.getFrom(), mensaje.getSubject(), mensaje.getReceivedDate(), mensaje);
-                        Logica.getINSTANCE().cargarCorreo(correo);
-
-                    }
-
+                listaMensajes = folder.getMessages();
+                for (int i = 0; i < listaMensajes.length; i++) {
+                    Message mensaje = listaMensajes[i];
+                    Emails correo = new Emails(mensaje.getFrom(), mensaje.getSubject(), mensaje.getReceivedDate(), mensaje);
+                    Logica.getINSTANCE().cargarCorreo(correo);
 
                 }
             }
-
         } catch (MessagingException e) {
             e.printStackTrace();
         }
     }
-    public void actualizarTabla (Folder folder){
-        Logica.getINSTANCE().getListaCorreo().clear();
-        listaEmails(folder);
-    }
 
-public  TreeItem<String> actualizarTree() throws  MessagingException {
 
-    for (int i = 0; i< Logica.getINSTANCE().getListaCuentas().size(); i++){
-        abrirCuenta(Logica.getINSTANCE().olistaCuentas.get(i));
-        CuentaCorreo cuentaCorreo = Logica.getINSTANCE().olistaCuentas.get(i);
-        rootItem = new EmailTreeItem(cuentaCorreo, cuentaCorreo.getEmail(),folder);
-        rootItem.getChildren().add(cargaCarpetas(Logica.getINSTANCE().olistaCuentas.get(i)));
-        listaTreeitem.add(rootItem);
+    public void actualizarTabla(Folder folder) {
+        if (folder != null) {
+            Logica.getINSTANCE().getListaCorreo().clear();
+            listaEmails(folder);
+        }
 
     }
-    TreeItem<String>dummyRoot = new TreeItem<>();
-    for (TreeItem treeItem : listaTreeitem){
-        dummyRoot.getChildren().add(treeItem);
 
+    public TreeItem<String> actualizarTree() throws MessagingException {
+
+        for (int i = 0; i < Logica.getINSTANCE().getListaCuentas().size(); i++) {
+            abrirCuenta(Logica.getINSTANCE().olistaCuentas.get(i));
+            CuentaCorreo cuentaCorreo = Logica.getINSTANCE().olistaCuentas.get(i);
+            rootItem = new EmailTreeItem(cuentaCorreo, cuentaCorreo.getEmail(), folder);
+            rootItem.getChildren().add(cargaCarpetas(Logica.getINSTANCE().olistaCuentas.get(i)));
+            listaTreeitem.add(rootItem);
+        }
+
+        TreeItem<String> dummyRoot = new TreeItem<>();
+        for (TreeItem treeItem : listaTreeitem) {
+            dummyRoot.getChildren().add(treeItem);
+
+        }
+
+        return dummyRoot;
     }
-    TreeView<String>treeView = new TreeView<>(dummyRoot);
-    //treeView.setShowRoot(false);
-    return dummyRoot;
-}
 
 
     public TreeItem cargaCarpetas(CuentaCorreo cuentaCorreo) throws MessagingException {
-            Folder[] folders = store.getDefaultFolder().list();
-            EmailTreeItem rootItem = new EmailTreeItem(cuentaCorreo, cuentaCorreo.getEmail(), folder);
-            rootItem.setExpanded(true);
-            getFolder(folders, rootItem, cuentaCorreo);
-            return rootItem;
+        Folder[] folders = store.getDefaultFolder().list();
+        EmailTreeItem rootItem = new EmailTreeItem(cuentaCorreo, cuentaCorreo.getEmail(), folder);
+        rootItem.setExpanded(true);
+        getFolder(folders, rootItem, cuentaCorreo);
+        return rootItem;
     }
-
 
 
     private void getFolder(Folder[] folders, EmailTreeItem foldersRoot, CuentaCorreo cuentaCorreo) throws MessagingException {
@@ -152,25 +150,27 @@ public  TreeItem<String> actualizarTree() throws  MessagingException {
     }
 
 
-    public void eliminarMensaje (Message message,Folder folder){
-        try {
-            if (!folder.isOpen()) {
-                folder.open(Folder.READ_WRITE);
+    public void eliminarMensaje(Message message) {
+        if (message != null) {
+            Folder folder = message.getFolder();
+            store = message.getFolder().getStore();
+            try {
+                if (!folder.isOpen())
+                    folder.open(Folder.READ_WRITE);
                 IMAPFolder folderBasura = (IMAPFolder) store.getFolder("[Gmail]/Trash");
                 folder.copyMessages(new Message[]{message}, folderBasura);
+
+
+            } catch (MessagingException e) {
+                e.printStackTrace();
             }
-
-        } catch (MessagingException e) {
-            e.printStackTrace();
         }
 
-
-        }
-
+    }
 
 
-    public void emailSet (String usuario, String password, String de, String[] para, String[] cC, String[] bCC,
-                          String asunto, String mensaje){
+    public void emailSet(String usuario, String password, String de, String[] para, String[] cC, String[] bCC,
+                         String asunto, String mensaje) {
         try {
             Email email = new SimpleEmail();
             email.setHostName("smtp.googlemail.com");
@@ -181,7 +181,7 @@ public  TreeItem<String> actualizarTree() throws  MessagingException {
             email.addTo(para);
             if (!(cC == null))
                 email.addCc(cC);
-            if (!(bCC==null))
+            if (!(bCC == null))
                 email.addBcc(bCC);
             email.setSubject(asunto);
             email.setMsg(mensaje);

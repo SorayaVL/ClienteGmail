@@ -61,7 +61,7 @@ public class VentanaPrincipal extends BaseController implements Initializable {
                             GestionCuenta.getINSTANCE().listaEmails((((EmailTreeItem) newValue).getFolder()));
                         }
 
-                            folder = ((EmailTreeItem) newValue).getFolder();
+                           folder = ((EmailTreeItem) newValue).getFolder();
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -95,7 +95,8 @@ public class VentanaPrincipal extends BaseController implements Initializable {
             btnEliminar.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                    GestionCuenta.getINSTANCE().eliminarMensaje(mensaje,folder);
+                    GestionCuenta.getINSTANCE().eliminarMensaje(mensaje);
+                    GestionCuenta.getINSTANCE().actualizarTabla(folder);
                 }
             });
 
@@ -133,6 +134,13 @@ public class VentanaPrincipal extends BaseController implements Initializable {
         EscribirEmail controller = (EscribirEmail) cargarDialogo("EscribirEmail.fxml", 1000, 800, "Responder Mensaje");
         controller.setMensajeResponder(mensaje);
         abrirDialogo(true, true);
+    }
+
+    @FXML
+    void cambiaVista(ActionEvent event) {
+        cargarDialogo("CambiaTema.fxml", 300, 200, "Cambiar Vista");
+        abrirDialogo(true, false);
+
     }
 
 

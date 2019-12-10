@@ -9,7 +9,7 @@ import javafx.scene.control.ComboBox;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class CambiaTema implements Initializable {
+public class CambiaTema extends BaseController implements Initializable {
 
     @FXML
     private ComboBox<String> temaCB;

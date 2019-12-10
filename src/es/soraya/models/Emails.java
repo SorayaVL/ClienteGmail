@@ -102,6 +102,15 @@ public class Emails extends CuentaCorreo {
 
     }
 
-
-
+    public boolean isRead()  {
+        try {
+            return mensaje.isSet(Flags.Flag.SEEN);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }return true;
+    }
 }
+
+
+
+

@@ -1,5 +1,6 @@
 package es.soraya.views;
 
+import es.soraya.logica.GestionCuenta;
 import es.soraya.logica.Logica;
 import es.soraya.models.CuentaCorreo;
 import javafx.event.ActionEvent;
@@ -14,6 +15,8 @@ import java.io.Serializable;
 
 public class VentanaLogin extends BaseController implements Serializable {
 
+        private CuentaCorreo cuentaCorreo;
+
         @FXML
         private Button btnAceptar;
 
@@ -25,6 +28,11 @@ public class VentanaLogin extends BaseController implements Serializable {
 
         @FXML
         void salvaCuenta(ActionEvent event) {
+                if (cuentaCorreo!=null){
+                       cuentaCorreo.setEmail(tfEmail.getText());
+                       cuentaCorreo.setPassword(tfPassword.getText());
+                        GestionCuenta.getINSTANCE().modificarCuenta(cuentaCorreo);
+                }
                 CuentaCorreo cuenta = new CuentaCorreo(tfEmail.getText(), tfPassword.getText());
                 Logica.getINSTANCE().aniadirCuenta(cuenta);
                 Logica.getINSTANCE().guardarFichero();
@@ -33,5 +41,9 @@ public class VentanaLogin extends BaseController implements Serializable {
         }
 
 
-
+        public void setCuentaModificar(CuentaCorreo cuentaCorreo) {
+                this.cuentaCorreo = cuentaCorreo;
+                tfEmail.setText(cuentaCorreo.getEmail());
+                tfPassword.setText(cuentaCorreo.getPassword());
+        }
 }

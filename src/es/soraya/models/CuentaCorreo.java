@@ -1,11 +1,10 @@
 package es.soraya.models;
 
-import javax.mail.Message;
-import javax.mail.Store;
 import java.io.Serializable;
 
 
 public class CuentaCorreo implements Serializable {
+    private static final long serialVersionUID= -5205807225694005213L;
 
     private String email;
     private String password;
@@ -22,30 +21,19 @@ public class CuentaCorreo implements Serializable {
         this.password = password;
     }
 
-  /*  public CuentaCorreo(String email, String password, Store store, Message message) {
-        this.email = email;
-        this.password = password;
-        this.store = store;
-        this.message = message;
-    }*/
-
-
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPassword() {
         return password;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
-
-
 }

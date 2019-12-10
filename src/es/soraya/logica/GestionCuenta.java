@@ -34,6 +34,10 @@ public class GestionCuenta {
         return INSTANCE;
     }
 
+    /**
+     * Método para abrir cada una de las cuentas de correo de Gmail
+     * @param cuentaCorreo
+     */
 
     public void abrirCuenta(CuentaCorreo cuentaCorreo) {
         try {
@@ -70,7 +74,6 @@ public class GestionCuenta {
                     Message mensaje = listaMensajes[i];
                     Emails correo = new Emails(mensaje.getFrom(), mensaje.getSubject(), mensaje.getReceivedDate(), mensaje);
                     Logica.getINSTANCE().cargarCorreo(correo);
-
                 }
             }
         } catch (MessagingException e) {
@@ -79,6 +82,11 @@ public class GestionCuenta {
     }
 
 
+    /**
+     * Método que actualiza la tabla de la venta con la lista de los emails por cada carpeta.
+     * Comrpueba que se haya seleccionado a alguna carpeta para poder cargar la lista de mails.
+     * @param folder
+     */
     public void actualizarTabla(Folder folder) {
         if (folder != null) {
             Logica.getINSTANCE().getListaCorreo().clear();
@@ -86,6 +94,17 @@ public class GestionCuenta {
         }
 
     }
+
+    /**
+     * Método para crear el árbol con las carpetas de las distintas cuentas.
+     * Para que pueda cargar todas las carpetas al abrir la aplicación, accede al método abrir cuenta por cada cuenta que hay en la lista de cuentas, y crea el
+     * ItemRoot por cada una de ellas. Para añadir las carpetas se llama al método cargarcarpetas().
+     * Para poder cargar más de una cuenta, como solo podemos tener un nodo raíz, se crea una lista en la que se añaden los nodos raíz de cada una de las cuentas.
+     * Se crea un Nodo raíz sin valor (dummyRoot) y se añaden como hijos los nodos raíz de cada una de las cuentas, de esta forma, solo tenemos un nodo raíz (dummyRoot)
+     *
+     * @return
+     * @throws MessagingException
+     */
 
     public TreeItem<String> actualizarTree() throws MessagingException {
 
@@ -106,6 +125,15 @@ public class GestionCuenta {
         return dummyRoot;
     }
 
+    /**
+     * Método que nos devuelve las carpetas de cada una de las cuentas.
+     * carga el método getFolder, que devuelve además las subcarpetas de cada carpeta, por lo tanto, llamando a este método
+     * obtenemos todas las carpetas y subcarpetas de una cuenta.
+     *
+     * @param cuentaCorreo
+     * @return
+     * @throws MessagingException
+     */
 
     public TreeItem cargaCarpetas(CuentaCorreo cuentaCorreo) throws MessagingException {
         Folder[] folders = store.getDefaultFolder().list();
@@ -115,7 +143,15 @@ public class GestionCuenta {
         return rootItem;
     }
 
-
+    /**
+     * Método que se encarga de cargar las subcarpetas de cada carpeta. Se trata de un método recursivo,
+     * si la carpeta contiene más carpetas, se llama de nuevo a este mismo método
+     *
+     * @param folders
+     * @param foldersRoot
+     * @param cuentaCorreo
+     * @throws MessagingException
+     */
     private void getFolder(Folder[] folders, EmailTreeItem foldersRoot, CuentaCorreo cuentaCorreo) throws MessagingException {
         for (Folder folder : folders) {
             EmailTreeItem emailTreeItem = new EmailTreeItem(cuentaCorreo, folder.getName(), folder);
@@ -150,6 +186,7 @@ public class GestionCuenta {
     }
 
 
+
     public void eliminarMensaje(Message message) {
         if (message != null) {
             Folder folder = message.getFolder();
@@ -157,8 +194,17 @@ public class GestionCuenta {
             try {
                 if (!folder.isOpen())
                     folder.open(Folder.READ_WRITE);
-                IMAPFolder folderBasura = (IMAPFolder) store.getFolder("[Gmail]/Trash");
-                folder.copyMessages(new Message[]{message}, folderBasura);
+                if (!folder.getName().equals("[Gmail]/Trash")){
+                    IMAPFolder folderBasura = (IMAPFolder) store.getFolder("[Gmail]/Trash");
+                    folder.copyMessages(new Message[]{message}, folderBasura);
+                    folder.close();
+                }
+                else {
+                    message.setFlag(Flags.Flag.DELETED, true);
+                    folder.close();
+
+                }
+
 
 
             } catch (MessagingException e) {
@@ -167,6 +213,7 @@ public class GestionCuenta {
         }
 
     }
+
 
 
     public void emailSet(String usuario, String password, String de, String[] para, String[] cC, String[] bCC,
@@ -192,25 +239,8 @@ public class GestionCuenta {
 
     }
 
-     /* System.out.println(folder.getFullName() + ": " + folder.getMessageCount());
-                    System.out.println("_______________________________________________________");
-                    System.out.println("No of Messages : " + folder.getMessageCount());
-                    System.out.println("No of Unread Messages : " + folder.getUnreadMessageCount());
-                    System.out.println(messages.length);
-                    System.out.println(getListaCorreo().toString());
-                    System.out.println("*****************************************************************************");
-                    System.out.println("MESSAGE " + (i + 1) + ":");
-                    System.out.println(mensaje.getMessageNumber());
-                    Object String;
-                    System.out.println(folder.getUID(mensaje)
-                    System.out.println("Subject: " + subject);
-                    System.out.println("From: " + mensaje.getFrom()[0]);
-                    System.out.println("To: " + mensaje.getAllRecipients()[0]);
-                    System.out.println("Date: " + mensaje.getReceivedDate());
-                    System.out.println("Size: " + mensaje.getSize());
-                    System.out.println(mensaje.getFlags());
-                    System.out.println("Body: \n" + mensaje.getContent());
-                    System.out.println(mensaje.getContentType());*/
-
-
+    public void modificarCuenta(CuentaCorreo cuentaCorreo) {
+        int posicion = Logica.getINSTANCE().olistaCuentas.indexOf(cuentaCorreo);
+        Logica.getINSTANCE().olistaCuentas.set(posicion, cuentaCorreo);
+    }
 }

@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableView;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,7 +17,7 @@ public class ModificaCuenta extends BaseController implements Initializable, Ser
     private TableView<CuentaCorreo> tvCuentas;
 
     @FXML
-   void aniadirCuenta(ActionEvent event) {
+    void aniadirCuenta(ActionEvent event) {
         cargarDialogo("VentanaLogin.fxml", 400, 250, "Añadir Cuenta");
         abrirDialogo(true, false);
         Logica.getINSTANCE().guardarFichero();
@@ -30,8 +31,11 @@ public class ModificaCuenta extends BaseController implements Initializable, Ser
 
     @FXML
     void modificar(ActionEvent event) {
-        cargarDialogo("VentanaLogin.fxml", 400, 250, "Modificar Cuenta");
+        VentanaLogin controller = (VentanaLogin) cargarDialogo("VentanaLogin.fxml", 400, 250, "Modificar Cuenta");
+        CuentaCorreo cuentaCorreo = tvCuentas.getSelectionModel().getSelectedItem();
+        controller.setCuentaModificar(cuentaCorreo);
         abrirDialogo(true, false);
+
     }
 
     @Override

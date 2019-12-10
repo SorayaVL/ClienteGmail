@@ -17,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.util.Callback;
 import org.apache.commons.mail.Email;
 
 import javax.mail.Folder;
@@ -36,8 +37,6 @@ public class VentanaPrincipal extends BaseController implements Initializable {
     private TreeView<String> treeFolders;
     @FXML
     private Button btnEliminar;
-    @FXML
-    private Button btnEscribir;
     @FXML
     private ProgressIndicator progressIndicator;
 
@@ -92,6 +91,23 @@ public class VentanaPrincipal extends BaseController implements Initializable {
             });
 
             tvMensajes.setItems(Logica.getINSTANCE().getListaCorreo());
+            tvMensajes.setRowFactory(new Callback<TableView<Emails>, TableRow<Emails>>() {
+                @Override
+                public TableRow<Emails> call(TableView<Emails> emailsTableView) {
+                    return new TableRow<>()
+                    {
+                        @Override
+                        protected void updateItem(Emails emails, boolean b) {
+                            super.updateItem(emails, b);
+                            if(emails!=null){
+                                if (!emails.isRead())
+                                    setStyle("-fx-font-weight:bold");
+                            }else
+                                setStyle("");
+                        }
+                    };
+                }
+            });
             WebEngine webEngine;
             webEngine = wvMensaje.getEngine();
 

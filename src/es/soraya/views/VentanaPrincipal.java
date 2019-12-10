@@ -1,5 +1,6 @@
 package es.soraya.views;
 
+import es.soraya.logica.CarpetasService;
 import es.soraya.logica.GestionCuenta;
 import es.soraya.logica.Logica;
 import es.soraya.models.CuentaCorreo;
@@ -7,6 +8,7 @@ import es.soraya.models.EmailTreeItem;
 import es.soraya.models.Emails;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -36,6 +38,9 @@ public class VentanaPrincipal extends BaseController implements Initializable {
     private Button btnEliminar;
     @FXML
     private Button btnEscribir;
+    @FXML
+    private ProgressIndicator progressIndicator;
+
 
     private Message mensaje;
     private Folder folder;
@@ -49,7 +54,7 @@ public class VentanaPrincipal extends BaseController implements Initializable {
         }
 
         try {
-
+            progressIndicator.setVisible(false);
             treeFolders.setRoot(GestionCuenta.getINSTANCE().actualizarTree());
             treeFolders.setShowRoot(false);
             treeFolders.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<String>>() {
@@ -59,6 +64,19 @@ public class VentanaPrincipal extends BaseController implements Initializable {
                         if ((((EmailTreeItem) newValue).getFolder()) != null){
 
                             GestionCuenta.getINSTANCE().listaEmails((((EmailTreeItem) newValue).getFolder()));
+                            CarpetasService carpetasService = new CarpetasService();
+                            carpetasService.setOnRunning(new EventHandler<WorkerStateEvent>() {
+                                @Override
+                                public void handle(WorkerStateEvent workerStateEvent) {
+                                    progressIndicator.setVisible(false);
+                                }
+                            });
+                            carpetasService.setOnRunning(new EventHandler<WorkerStateEvent>() {
+                                @Override
+                                public void handle(WorkerStateEvent workerStateEvent) {
+                                    progressIndicator.setVisible(true);
+                                }
+                            });
                         }
 
                            folder = ((EmailTreeItem) newValue).getFolder();

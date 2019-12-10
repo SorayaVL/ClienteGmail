@@ -32,10 +32,6 @@ public class ModificaCuenta extends BaseController implements Initializable, Ser
     void modificar(ActionEvent event) {
         cargarDialogo("VentanaLogin.fxml", 400, 250, "Modificar Cuenta");
         abrirDialogo(true, false);
-       /* VentanaLogin cotroller =
-        Logica.getINSTANCE().guardarFichero();*/
-
-
     }
 
     @Override

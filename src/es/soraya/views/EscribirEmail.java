@@ -81,14 +81,20 @@ public class EscribirEmail extends BaseController implements Initializable {
     }
 
     public void setMensajeReenviar(Message mensajeReenviar) throws IOException, MessagingException {
-        tfAsunto.setText("RE: "+mensajeReenviar.getSubject());
-        htmlMensaje.setHtmlText(cuerpoMail= GestionCuenta.getINSTANCE().leerMensaje(mensajeReenviar));
+        if (mensajeReenviar!=null){
+            tfAsunto.setText("RE: "+mensajeReenviar.getSubject());
+            htmlMensaje.setHtmlText(cuerpoMail= GestionCuenta.getINSTANCE().leerMensaje(mensajeReenviar));
+        }
+
     }
 
     public void setMensajeResponder (Message mensajeResponder) throws MessagingException {
-        tfPara.setText(Arrays.toString(mensajeResponder.getFrom()));
-        tfAsunto.setText("RE: "+mensajeResponder.getSubject());
-        htmlMensaje.setHtmlText(cuerpoMail= GestionCuenta.getINSTANCE().leerMensaje(mensajeResponder));
+        if (mensajeResponder!=null){
+            tfPara.setText(Arrays.toString(mensajeResponder.getFrom()));
+            tfAsunto.setText("RE: "+mensajeResponder.getSubject());
+            htmlMensaje.setHtmlText(cuerpoMail= GestionCuenta.getINSTANCE().leerMensaje(mensajeResponder));
+        }
+
     }
 
 

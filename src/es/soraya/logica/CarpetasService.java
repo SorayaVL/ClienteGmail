@@ -4,18 +4,23 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
 
-public class CarpetasService extends Service <String> {
+public class CarpetasService extends Service <Integer> {
 
     public CarpetasService() {
     }
 
     @Override
-    protected Task<String> createTask() {
-        return new Task<>() {
+    public Task<Integer> createTask() {
+        return new Task<Integer>() {
             @Override
-            protected String call() throws Exception {
+            public Integer call() throws Exception {
+                int i;
+                for (i=0; i<500;i++){
+                    updateProgress(i, 500);
+                    Thread.sleep(2);
+                }
 
-                return "";
+                return i;
             }
         };
     }

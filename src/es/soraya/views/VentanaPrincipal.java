@@ -62,21 +62,25 @@ public class VentanaPrincipal extends BaseController implements Initializable {
                 public void changed(ObservableValue<? extends TreeItem<String>> observableValue, TreeItem<String> oldValue, TreeItem<String> newValue) {
                     try {
                         if ((((EmailTreeItem) newValue).getFolder()) != null){
-
-                            GestionCuenta.getINSTANCE().listaEmails((((EmailTreeItem) newValue).getFolder()));
                             CarpetasService carpetasService = new CarpetasService();
-                            carpetasService.setOnRunning(new EventHandler<WorkerStateEvent>() {
+                            carpetasService.start();
+                            carpetasService.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
                                 @Override
                                 public void handle(WorkerStateEvent workerStateEvent) {
+                                    GestionCuenta.getINSTANCE().listaEmails((((EmailTreeItem) newValue).getFolder()));
                                     progressIndicator.setVisible(false);
                                 }
                             });
                             carpetasService.setOnRunning(new EventHandler<WorkerStateEvent>() {
                                 @Override
                                 public void handle(WorkerStateEvent workerStateEvent) {
+
                                     progressIndicator.setVisible(true);
+                                    progressIndicator.progressProperty().bind(carpetasService.progressProperty());
                                 }
                             });
+                          //  GestionCuenta.getINSTANCE().listaEmails((((EmailTreeItem) newValue).getFolder()));
+
                         }
 
                            folder = ((EmailTreeItem) newValue).getFolder();

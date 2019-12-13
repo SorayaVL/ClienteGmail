@@ -1,7 +1,7 @@
 package es.soraya.logica;
 
-import es.soraya.models.Emails;
 import es.soraya.models.CuentaCorreo;
+import es.soraya.models.Emails;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -79,5 +79,7 @@ public class Logica implements Serializable {
         }
 
     }
+
+
 
 }

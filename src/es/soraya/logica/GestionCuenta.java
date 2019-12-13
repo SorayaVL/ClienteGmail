@@ -2,11 +2,16 @@ package es.soraya.logica;
 
 
 import com.sun.mail.imap.IMAPFolder;
+import es.soraya.models.CuentaCorreo;
 import es.soraya.models.EmailTreeItem;
 import es.soraya.models.Emails;
-import es.soraya.models.CuentaCorreo;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
-import org.apache.commons.mail.*;
+import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.SimpleEmail;
 import org.apache.commons.mail.util.MimeMessageParser;
 
 import javax.mail.*;
@@ -72,6 +77,7 @@ public class GestionCuenta {
                     folder.open(Folder.READ_WRITE);
                 listaMensajes = folder.getMessages();
                 for (int i = 0; i < listaMensajes.length; i++) {
+                    System.out.println(folder.getName());
                     Message mensaje = listaMensajes[i];
                     Emails correo = new Emails(mensaje.getFrom(), mensaje.getSubject(), mensaje.getReceivedDate(), mensaje);
                     Logica.getINSTANCE().cargarCorreo(correo);
@@ -81,6 +87,20 @@ public class GestionCuenta {
             e.printStackTrace();
         }
     }
+
+    public ObservableList<String> listaInbox () throws MessagingException {
+        IMAPFolder inbox = (IMAPFolder) store.getFolder("INBOX");
+        listaMensajes=inbox.getMessages();
+        ObservableList<String>listaCombo = FXCollections.observableArrayList();
+      for (int i=0; i<listaMensajes.length; i++){
+          Message message = listaMensajes[i];
+          Emails correo = new Emails(message.getFrom(), message.getSubject(), message.getReceivedDate(), message);
+          listaCombo.add(message.getFrom().toString()+message.getSentDate().toString());
+
+      }
+      return listaCombo;
+    }
+
 
 
     /**

@@ -14,6 +14,7 @@ public class CambiaTema extends BaseController implements Initializable {
     @FXML
     private ComboBox<String> temaCB;
 
+
     @FXML
     void cambiaTema(ActionEvent event) {
         if (temaCB.getSelectionModel().getSelectedItem() != null)

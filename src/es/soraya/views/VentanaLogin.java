@@ -55,11 +55,12 @@ public class VentanaLogin extends BaseController implements Initializable, Seria
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-       /* ValidationSupport validationSupport = new ValidationSupport();
+        ValidationSupport validationSupport = new ValidationSupport();
         validationSupport.registerValidator(tfEmail, Validator.createEmptyValidator("Inserte el email"));
-        validationSupport.registerValidator(tfPassword, Validator.createEmptyValidator("Inserte la contraseña"));*/
+        validationSupport.registerValidator(tfPassword, Validator.createEmptyValidator("Inserte la contraseña"));
+        btnAceptar.disableProperty().bind(validationSupport.invalidProperty());
 
 
-        System.out.println("Estoy en el metodo initialize de Ventana Login");
+
     }
 }

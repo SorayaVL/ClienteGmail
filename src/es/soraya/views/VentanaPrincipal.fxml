@@ -80,6 +80,7 @@
               </items>
             </SplitPane>
             <ProgressIndicator fx:id="progressIndicator" layoutX="599.0" layoutY="1.0" progress="0.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="1.0" />
+            <Button fx:id="btnInbox" layoutX="96.0" layoutY="9.0" mnemonicParsing="false" onAction="#cargarInbox" prefHeight="25.0" prefWidth="84.0" text="INBOX" />
          </children>
     </AnchorPane>
   </children>

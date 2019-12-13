@@ -3,7 +3,6 @@ package es.soraya.views;
 import es.soraya.logica.CarpetasService;
 import es.soraya.logica.GestionCuenta;
 import es.soraya.logica.Logica;
-import es.soraya.models.CuentaCorreo;
 import es.soraya.models.EmailTreeItem;
 import es.soraya.models.Emails;
 import javafx.beans.value.ChangeListener;
@@ -12,20 +11,18 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
 import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.util.Callback;
-import org.apache.commons.mail.Email;
 
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class VentanaPrincipal extends BaseController implements Initializable {
@@ -42,12 +39,17 @@ public class VentanaPrincipal extends BaseController implements Initializable {
 
 
     private Message mensaje;
+
+    public Folder getFolder() {
+        return folder;
+    }
+
     private Folder folder;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Logica.getINSTANCE().abreFichero();
-        if (Logica.getINSTANCE().olistaCuentas.isEmpty()) { // si no tenemos ninguna cuenta almacenada nos carga la venta de añadir una cuenta,
+        if (Logica.getINSTANCE().olistaCuentas.isEmpty()) {// si no tenemos ninguna cuenta almacenada nos carga la ventana de añadir una cuenta,
             // si no directamente nos cargará la ventana principal.
             cargarDialogo("VentanaLogin.fxml", 400, 250, "Login");
             abrirDialogo(true, false);
@@ -61,20 +63,20 @@ public class VentanaPrincipal extends BaseController implements Initializable {
                 @Override
                 public void changed(ObservableValue<? extends TreeItem<String>> observableValue, TreeItem<String> oldValue, TreeItem<String> newValue) {
                     try {
-                        if ((((EmailTreeItem) newValue).getFolder()) != null) {
+                        folder = ((EmailTreeItem) newValue).getFolder();
+                        if (folder!= null) {
                             CarpetasService carpetasService = new CarpetasService();// crea el servicio para cargar el Thread
                             carpetasService.start();
                             carpetasService.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
                                 @Override
                                 public void handle(WorkerStateEvent workerStateEvent) {
-                                    GestionCuenta.getINSTANCE().listaEmails((((EmailTreeItem) newValue).getFolder()));
+                                    GestionCuenta.getINSTANCE().listaEmails(folder);
                                     progressIndicator.setVisible(false);
                                 }
                             });
                             carpetasService.setOnRunning(new EventHandler<WorkerStateEvent>() {
                                 @Override
                                 public void handle(WorkerStateEvent workerStateEvent) {
-
                                     progressIndicator.setVisible(true);
                                     progressIndicator.progressProperty().bind(carpetasService.progressProperty());
                                 }
@@ -82,7 +84,7 @@ public class VentanaPrincipal extends BaseController implements Initializable {
 
                         }
 
-                        folder = ((EmailTreeItem) newValue).getFolder();
+
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -177,6 +179,14 @@ public class VentanaPrincipal extends BaseController implements Initializable {
     void cambiaVista(ActionEvent event) {
         cargarDialogo("CambiaTema.fxml", 300, 200, "Cambiar Vista");
         abrirDialogo(true, false);
+
+    }
+
+    @FXML
+    void cargarInbox(ActionEvent event) {
+        cargarDialogo("CargaInbox.fxml", 500, 200, "Cargar Inbox");
+        abrirDialogo(true, false);
+
 
     }
 

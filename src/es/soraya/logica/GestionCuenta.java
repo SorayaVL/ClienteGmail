@@ -49,6 +49,10 @@ public class GestionCuenta {
         try {
             Properties props = System.getProperties();
             props.setProperty("mail.store.protocol", "imaps");
+          /*  MailSSLSocketFactory sf = new MailSSLSocketFactory();
+            sf.setTrustAllHosts(true);
+            props.put("mail.imap.ssl.trust", "*");
+            props.put("mail.imap.ssl.socketFactory", sf);*/
             Session session = Session.getDefaultInstance(props, null);
             store = session.getStore("imaps");
             store.connect("imap.googlemail.com", cuentaCorreo.getEmail(), cuentaCorreo.getPassword());

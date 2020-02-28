@@ -191,4 +191,12 @@ public class VentanaPrincipal extends BaseController implements Initializable {
     }
 
 
+    @FXML
+    void abreAgenda(ActionEvent event) {
+        cargarDialogo("Agenda.fxml", 500,200, "Agenda");
+        abrirDialogo(true, false);
+
+    }
+
+
 }

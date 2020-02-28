@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.soraya.views.Agenda">
+   <children>
+      <Button fx:id="btnaceptar" layoutX="155.0" layoutY="188.0" mnemonicParsing="false" onAction="#getTarea" prefHeight="25.0" prefWidth="80.0" text="Button" />
+      <Label layoutX="156.0" layoutY="152.0" prefHeight="17.0" prefWidth="13.0" text=":" />
+      <TextField fx:id="tfhora" layoutX="126.0" layoutY="148.0" prefHeight="25.0" prefWidth="30.0" />
+      <Label layoutX="132.0" layoutY="127.0" text="HH" />
+      <TextField layoutX="206.0" layoutY="148.0" prefHeight="25.0" prefWidth="30.0" />
+      <Label layoutX="170.0" layoutY="127.0" text="MM" />
+      <Label layoutX="215.0" layoutY="127.0" text="SS" />
+      <TextField layoutX="167.0" layoutY="148.0" prefHeight="25.0" prefWidth="28.0" />
+      <Label layoutX="200.0" layoutY="152.0" prefHeight="17.0" prefWidth="13.0" text=":" />
+   </children>
+</Pane>

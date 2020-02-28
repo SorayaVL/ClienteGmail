@@ -23,6 +23,7 @@
           <items>
             <MenuItem mnemonicParsing="false" onAction="#gestionCuenta" text="Gestionar Cuentas..." />
                   <MenuItem mnemonicParsing="false" onAction="#cambiaVista" text="Vista..." />
+                  <MenuItem mnemonicParsing="false" onAction="#abreAgenda" text="Agenda..." />
           </items>
         </Menu>
       </menus>

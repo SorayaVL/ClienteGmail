@@ -1,17 +1,14 @@
 package es.soraya.models;
 
-import com.sun.mail.imap.IMAPFolder;
-import es.soraya.logica.GestionCuenta;
-import es.soraya.logica.Logica;
 import javafx.scene.control.TreeView;
-import org.apache.commons.mail.util.MimeMessageParser;
 
-import javax.mail.*;
-import java.io.IOException;
+import javax.mail.Address;
+import javax.mail.Flags;
+import javax.mail.Message;
+import javax.mail.MessagingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Properties;
 
 public class Emails extends CuentaCorreo {
 
@@ -116,6 +113,8 @@ public class Emails extends CuentaCorreo {
         }
         return true;
     }
+
+
 }
 
 

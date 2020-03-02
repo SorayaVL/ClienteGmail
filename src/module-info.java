@@ -8,13 +8,17 @@ module ClienteGmail {
     requires javafx.media;
     requires javafx.web;
     requires commons.email;
+    requires ComponenteReloj;
 
 
     exports es.soraya.models;
     exports es.soraya.logica;
     exports es.soraya.views;
     exports es.soraya;
+    //exports javafx.scene.transform to ComponenteReloj;
+
 
     opens es.soraya.views to javafx.fxml;
+
 
 }

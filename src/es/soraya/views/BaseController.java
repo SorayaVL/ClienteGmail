@@ -1,6 +1,5 @@
 package es.soraya.views;
 
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -39,8 +38,9 @@ public class BaseController {
     //ctrl+q para abrir la ayuda de los comentarios
     protected void abrirDialogo(boolean showAndWait, boolean maximizado) {
         if (maximizado) stage.setMaximized(true);
-        if (showAndWait) stage.showAndWait();
-        else stage.show();
+        if (showAndWait) {
+            stage.showAndWait();
+        } else stage.show();
     }
 
 }

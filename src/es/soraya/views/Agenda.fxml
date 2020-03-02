@@ -1,20 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.soraya.Reloj?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.Pane?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.soraya.views.Agenda">
    <children>
-      <Button fx:id="btnaceptar" layoutX="155.0" layoutY="188.0" mnemonicParsing="false" onAction="#getTarea" prefHeight="25.0" prefWidth="80.0" text="Button" />
-      <Label layoutX="156.0" layoutY="152.0" prefHeight="17.0" prefWidth="13.0" text=":" />
-      <TextField fx:id="tfhora" layoutX="126.0" layoutY="148.0" prefHeight="25.0" prefWidth="30.0" />
-      <Label layoutX="132.0" layoutY="127.0" text="HH" />
-      <TextField layoutX="206.0" layoutY="148.0" prefHeight="25.0" prefWidth="30.0" />
-      <Label layoutX="170.0" layoutY="127.0" text="MM" />
-      <Label layoutX="215.0" layoutY="127.0" text="SS" />
-      <TextField layoutX="167.0" layoutY="148.0" prefHeight="25.0" prefWidth="28.0" />
-      <Label layoutX="200.0" layoutY="152.0" prefHeight="17.0" prefWidth="13.0" text=":" />
+      <TextField fx:id="tfDescripcion" alignment="TOP_LEFT" layoutX="48.0" layoutY="194.0" prefHeight="82.0" prefWidth="200.0" />
+      <TextField fx:id="tfhora" layoutX="133.0" layoutY="305.0" prefHeight="25.0" prefWidth="30.0" />
+      <TextField fx:id="tfminutos" layoutX="177.0" layoutY="305.0" prefHeight="25.0" prefWidth="28.0" />
+      <TextField fx:id="tfSegundos" layoutX="219.0" layoutY="305.0" prefHeight="25.0" prefWidth="30.0" />
+      <Button fx:id="btnaceptar" layoutX="131.0" layoutY="348.0" mnemonicParsing="false" onAction="#getTarea" prefHeight="25.0" prefWidth="121.0" text="Añadir" />
+      <TableView fx:id="tvTareas" layoutX="347.0" layoutY="58.0" prefHeight="272.0" prefWidth="200.0">
+        <columns>
+           <TableColumn minWidth="-Infinity" prefWidth="108.0" text="Descripcion">
+              <cellValueFactory><PropertyValueFactory property="descripcion" />
+              </cellValueFactory>
+           </TableColumn>
+           <TableColumn minWidth="-Infinity" prefWidth="84.0" text="Hora">
+              <cellValueFactory><PropertyValueFactory property="hora" />
+              </cellValueFactory>
+           </TableColumn>
+        </columns>
+      </TableView>
+      <Button fx:id="btnEliminar" layoutX="426.0" layoutY="348.0" mnemonicParsing="false" onAction="#deleteTarea" prefHeight="25.0" prefWidth="121.0" text="Eliminar" />
+      <Label layoutX="48.0" layoutY="166.0" prefHeight="17.0" prefWidth="108.0" text="Descripción:" />
+      <Label layoutX="139.0" layoutY="288.0" text="HH" />
+      <Label layoutX="180.0" layoutY="288.0" text="MM" />
+      <Label layoutX="228.0" layoutY="288.0" text="SS" />
+      <Label layoutX="213.0" layoutY="309.0" prefHeight="17.0" prefWidth="13.0" text=":" />
+      <Label layoutX="171.0" layoutY="309.0" prefHeight="17.0" prefWidth="13.0" text=":" />
+      <Reloj fx:id="reloj" layoutX="93.0" layoutY="50.0" prefHeight="65.0" prefWidth="169.0" />
    </children>
 </Pane>

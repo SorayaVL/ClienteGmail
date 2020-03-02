@@ -16,6 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.Modality;
 import javafx.util.Callback;
 
 import javax.mail.Folder;
@@ -193,8 +194,10 @@ public class VentanaPrincipal extends BaseController implements Initializable {
 
     @FXML
     void abreAgenda(ActionEvent event) {
-        cargarDialogo("Agenda.fxml", 500,200, "Agenda");
-        abrirDialogo(true, false);
+        cargarDialogo("Agenda.fxml", 600,400, "Agenda");
+        stage.initModality(Modality.NONE);
+        abrirDialogo(false, false);
+
 
     }
 

@@ -45,6 +45,21 @@ public class Logica implements Serializable {
     public void aniadirCuenta(CuentaCorreo cuentaCorreo) {
         olistaCuentas.add(cuentaCorreo);
     }
+    public ObservableList<String> listaHoras = FXCollections.observableArrayList();
+    public ObservableList<String> listaMinSegs = FXCollections.observableArrayList();
+
+
+    public void cargaHoras(){
+        for (int i= 0 ; i<24; i++){
+            listaHoras.add(String.valueOf(i));
+        }
+    }
+
+    public void cargaMinsSegs(){
+        for (int i= 0 ; i<60; i++){
+            listaMinSegs.add(String.valueOf(i));
+        }
+    }
 
 
     public void guardarFichero() {
@@ -79,6 +94,7 @@ public class Logica implements Serializable {
         }
 
     }
+
 
 
 

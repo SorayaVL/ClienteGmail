@@ -20,7 +20,7 @@ public class Emails extends CuentaCorreo {
     TreeView<String> treeView;
 
 
-    public Emails() {
+    public Emails(Emails selectedItem) {
     }
 
 
@@ -114,7 +114,10 @@ public class Emails extends CuentaCorreo {
         return true;
     }
 
-
+    @Override
+    public String toString() {
+        return "" + mensaje;
+    }
 }
 
 

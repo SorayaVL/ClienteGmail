@@ -17,7 +17,7 @@ public class Launcher extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("views/VentanaPrincipal.fxml"));
         stage.setTitle("Gestor Gmail");
         stage.setScene(new Scene(root));
-        stage.setMaximized(true);
+        stage.setMaximized(false);
         stage.show();
 
     }

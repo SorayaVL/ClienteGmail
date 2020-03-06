@@ -27,6 +27,7 @@ public class GestionCuenta {
     private Store store;
     private TreeItem rootItem;
     private List<TreeItem<String>> listaTreeitem = new ArrayList<>();
+    public String nombreCuenta;
 
     public GestionCuenta() {
     }
@@ -56,6 +57,7 @@ public class GestionCuenta {
             Session session = Session.getDefaultInstance(props, null);
             store = session.getStore("imaps");
             store.connect("imap.googlemail.com", cuentaCorreo.getEmail(), cuentaCorreo.getPassword());
+            nombreCuenta = cuentaCorreo.toString();
         } catch (NoSuchProviderException e) {
             e.printStackTrace();
         } catch (MessagingException e) {
@@ -108,7 +110,7 @@ public class GestionCuenta {
 
 
     /**
-     * Método que actualiza la tabla de la venta con la lista de los emails por cada carpeta.
+     * Método que actualiza la tabla de la ventana con la lista de los emails por cada carpeta.
      * Comrpueba que se haya seleccionado a alguna carpeta para poder cargar la lista de mails.
      *
      * @param folder

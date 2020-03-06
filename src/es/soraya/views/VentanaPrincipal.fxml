@@ -24,6 +24,7 @@
             <MenuItem mnemonicParsing="false" onAction="#gestionCuenta" text="Gestionar Cuentas..." />
                   <MenuItem mnemonicParsing="false" onAction="#cambiaVista" text="Vista..." />
                   <MenuItem mnemonicParsing="false" onAction="#abreAgenda" text="Agenda..." />
+                  <MenuItem mnemonicParsing="false" onAction="#abreInformes" text="Informes..." />
           </items>
         </Menu>
       </menus>
@@ -71,6 +72,7 @@
                                         <Button fx:id="btnEliminar" mnemonicParsing="false" text="Eliminar" />
                                           <Button fx:id="btnResponder" mnemonicParsing="false" onAction="#respondeMail" prefHeight="25.0" prefWidth="74.0" text="Responder" />
                                           <Button fx:id="btnReenviar" mnemonicParsing="false" onAction="#reenviaMensaje" text="Reenviar" />
+                                          <Button fx:id="btnPDF" mnemonicParsing="false" onAction="#listamails" prefHeight="25.0" prefWidth="83.0" text="Guardar PDF" />
                                       </items>
                                     </ToolBar>
                                  </children></AnchorPane>

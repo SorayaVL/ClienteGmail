@@ -3,6 +3,7 @@ package es.soraya.views;
 import es.soraya.logica.CarpetasService;
 import es.soraya.logica.GestionCuenta;
 import es.soraya.logica.Logica;
+import es.soraya.models.EmailInforme;
 import es.soraya.models.EmailTreeItem;
 import es.soraya.models.Emails;
 import javafx.beans.value.ChangeListener;
@@ -18,12 +19,17 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.util.Callback;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class VentanaPrincipal extends BaseController implements Initializable {
@@ -38,7 +44,6 @@ public class VentanaPrincipal extends BaseController implements Initializable {
     @FXML
     private ProgressIndicator progressIndicator;
 
-
     private Message mensaje;
 
     public Folder getFolder() {
@@ -46,6 +51,7 @@ public class VentanaPrincipal extends BaseController implements Initializable {
     }
 
     private Folder folder;
+    private Emails emailSelected;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -119,6 +125,7 @@ public class VentanaPrincipal extends BaseController implements Initializable {
                     try {
                         if (email != null) {
                             String contenido = GestionCuenta.getINSTANCE().leerMensaje(email.getMensaje());
+                             emailSelected= email;
                             webEngine.loadContent(contenido);
                             mensaje = email.getMensaje();
                         } else
@@ -130,6 +137,7 @@ public class VentanaPrincipal extends BaseController implements Initializable {
 
                 }
             });
+
 
 
             btnEliminar.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -200,6 +208,47 @@ public class VentanaPrincipal extends BaseController implements Initializable {
 
 
     }
+
+    @FXML
+    void abreInformes(ActionEvent event) {
+
+        cargarDialogo("VentanaInformes.fxml", 600, 400 , "Informes");
+        abrirDialogo(true, false);
+
+    }
+    @FXML
+    void listamails(ActionEvent event) throws IOException, MessagingException {
+        Logica.getINSTANCE().limpiarEmailsList();
+        EmailInforme emailInforme = new EmailInforme (emailSelected.getFrom(), emailSelected.getSubject(), Logica.getINSTANCE().convertirMessage(emailSelected.getMensaje()));
+        Logica.getINSTANCE().addEmailtoReport(emailInforme);
+        JRBeanCollectionDataSource jrds = new JRBeanCollectionDataSource(Logica.getINSTANCE().getEmailsList());
+     //   EmailInforme emailInforme = new EmailInforme (emailSelected.getFrom(), emailSelected.getSubject(), Logica.getINSTANCE().convertirMessage(emailSelected.getMensaje()));
+        try {
+          /*  Map parametros = new HashMap();
+            parametros.put("EMAIL", emailInforme);*/
+
+           JasperPrint jasperPrint = JasperFillManager.fillReport(
+                    getClass().getResourceAsStream("/es/soraya/jasper/emailGmail.jasper"),
+                    new HashMap<String, Object>(), jrds);
+          /*  JasperPrint jasperPrint = JasperFillManager.fillReport(
+                    getClass().getResourceAsStream("/es/soraya/jasper/VistaEmail.jasper"),
+                    parametros, jrds);*/
+            JasperExportManager.exportReportToPdfFile(jasperPrint, "informessalida/report.pdf");
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Informe generado");
+            alert.setContentText("El correo se ha guardado a pdf");
+            alert.show();
+        } catch (Throwable e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("Error generando el informe");
+            alert.setContentText("Ha ocurrido un error generando el informe");
+            alert.show();
+        }
+    }
+
+
 
 
 }

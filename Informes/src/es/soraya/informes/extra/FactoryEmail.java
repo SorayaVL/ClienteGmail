@@ -1,6 +1,7 @@
 package es.soraya.informes.extra;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class FactoryEmail {
@@ -15,6 +16,17 @@ public class FactoryEmail {
         emailsList.add(emailInforme2);
         emailsList.add(emailInforme3);
         return emailsList;
+    }
+
+    public static List<EmailsFolder> listaEmailsFolder()
+    {
+        List<EmailsFolder> emailsFoldersList = new ArrayList<>();
+        emailsFoldersList.add(new EmailsFolder("Carpeta1", "Remitente1", "Asunto1", new Date()));
+        emailsFoldersList.add(new EmailsFolder("Carpeta2", "Remitente2", "Asunto2", new Date()));
+        emailsFoldersList.add(new EmailsFolder("Carpeta3", "Remitente3", "Asunto3", new Date()));
+        emailsFoldersList.add(new EmailsFolder("Carpeta4", "Remitente4", "Asunto4", new Date()));
+
+        return emailsFoldersList;
     }
 
 }

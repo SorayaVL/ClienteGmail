@@ -3,7 +3,6 @@ package es.soraya.logica;
 
 import com.sun.mail.imap.IMAPFolder;
 import es.soraya.models.*;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 import org.apache.commons.mail.DefaultAuthenticator;
@@ -116,7 +115,7 @@ public class GestionCuenta {
         }
     }
 
-    public ObservableList<String> listaInbox () throws MessagingException {
+  /*  public ObservableList<String> listaInbox () throws MessagingException {
         IMAPFolder inbox = (IMAPFolder) store.getFolder("INBOX");
         listaMensajes=inbox.getMessages();
         ObservableList<String>listaCombo = FXCollections.observableArrayList();
@@ -127,7 +126,7 @@ public class GestionCuenta {
 
       }
       return listaCombo;
-    }
+    }*/
 
 
 

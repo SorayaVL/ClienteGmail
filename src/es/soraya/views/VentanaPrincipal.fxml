@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.web.WebView?>
+<?import javafx.scene.web.*?>
+
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.soraya.views.VentanaPrincipal">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
-        <Menu mnemonicParsing="false" text="Archivo">
+        <Menu mnemonicParsing="false" text="Herramientas">
           <items>
             <MenuItem mnemonicParsing="false" onAction="#gestionCuenta" text="Gestionar Cuentas..." />
                   <MenuItem mnemonicParsing="false" onAction="#cambiaVista" text="Vista..." />

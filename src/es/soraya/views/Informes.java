@@ -4,18 +4,24 @@ import es.soraya.logica.GestionCuenta;
 import es.soraya.logica.Logica;
 import es.soraya.models.Carpeta;
 import es.soraya.models.CuentaCorreo;
-import es.soraya.models.EmailsFolder;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import javax.mail.Folder;
 import javax.mail.MessagingException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class Informes extends BaseController implements Initializable {
@@ -26,21 +32,37 @@ public class Informes extends BaseController implements Initializable {
     @FXML
     private TableView<Carpeta> tvCarpetas;
 
-
     private Folder folder;
 
     @FXML
     void generaInforme(ActionEvent event) {
         folder=tvCarpetas.getSelectionModel().getSelectedItem().getFolder();
         GestionCuenta.getINSTANCE().emailsCarpetaInforme(folder);
-        for (EmailsFolder emailsFolder : Logica.getINSTANCE().emailsFolderList){
-            System.out.println(emailsFolder.getNombreCarpeta());
-            System.out.println(emailsFolder.getRemitente());
-            System.out.println(emailsFolder.getAsunto());
-            System.out.println(emailsFolder.getFecha());
-            System.out.println("_____________________________");
-            System.out.println("");
+        JRBeanCollectionDataSource jrds = new JRBeanCollectionDataSource(Logica.getINSTANCE().emailsFolderList);
+        try {
+            Map parametros = new HashMap();
+            parametros.put("NOMBRECARPETA", folder.getName());
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(getClass().getResourceAsStream("/es/soraya/jasper/EmailsCarpeta.jasper"), parametros, jrds);
+          /*  JasperPrint jasperPrint = JasperFillManager.fillReport(
+                    getClass().getResourceAsStream("/es/soraya/jasper/VistaEmail.jasper"),
+                    parametros, jrds);*/
+            JasperExportManager.exportReportToPdfFile(jasperPrint, "informessalida/reportCarpeta.pdf");
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Informe generado");
+            alert.setContentText("El correo se ha guardado a pdf");
+            alert.show();
+        } catch (Throwable e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("Error generando el informe");
+            alert.setContentText("Ha ocurrido un error generando el informe");
+            alert.show();
         }
+
+
+
 
     }
 
@@ -63,6 +85,8 @@ public class Informes extends BaseController implements Initializable {
 
 
     }
+
+
 
 
 

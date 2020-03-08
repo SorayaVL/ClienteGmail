@@ -36,33 +36,40 @@ public class Informes extends BaseController implements Initializable {
 
     @FXML
     void generaInforme(ActionEvent event) {
-        folder=tvCarpetas.getSelectionModel().getSelectedItem().getFolder();
-        GestionCuenta.getINSTANCE().emailsCarpetaInforme(folder);
-        JRBeanCollectionDataSource jrds = new JRBeanCollectionDataSource(Logica.getINSTANCE().emailsFolderList);
-        try {
-            Map parametros = new HashMap();
-            parametros.put("NOMBRECARPETA", folder.getName());
+       if (tvCarpetas.getSelectionModel().getSelectedItem()!=null)
+           folder=tvCarpetas.getSelectionModel().getSelectedItem().getFolder();
+        if (folder!=null){
+            GestionCuenta.getINSTANCE().emailsCarpetaInforme(folder);
+            JRBeanCollectionDataSource jrds = new JRBeanCollectionDataSource(Logica.getINSTANCE().emailsFolderList);
+            try {
+                Map parametros = new HashMap();
+                parametros.put("NOMBRECARPETA", folder.getName());
 
-            JasperPrint jasperPrint = JasperFillManager.fillReport(getClass().getResourceAsStream("/es/soraya/jasper/EmailsCarpeta.jasper"), parametros, jrds);
+                JasperPrint jasperPrint = JasperFillManager.fillReport(getClass().getResourceAsStream("/es/soraya/jasper/EmailsCarpeta.jasper"), parametros, jrds);
           /*  JasperPrint jasperPrint = JasperFillManager.fillReport(
                     getClass().getResourceAsStream("/es/soraya/jasper/VistaEmail.jasper"),
                     parametros, jrds);*/
-            JasperExportManager.exportReportToPdfFile(jasperPrint, "informessalida/reportCarpeta.pdf");
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Informe generado");
-            alert.setContentText("El correo se ha guardado a pdf");
-            alert.show();
-        } catch (Throwable e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setHeaderText("Error generando el informe");
-            alert.setContentText("Ha ocurrido un error generando el informe");
+                JasperExportManager.exportReportToPdfFile(jasperPrint, "informessalida/reportCarpeta.pdf");
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Informe generado");
+                alert.setContentText("El correo se ha guardado a pdf");
+                alert.show();
+            } catch (Throwable e) {
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR");
+                alert.setHeaderText("Error generando el informe");
+                alert.setContentText("Ha ocurrido un error generando el informe");
+                alert.show();
+            }
+
+        }else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Seleccione una carpeta");
+            alert.setHeaderText("No se ha seleccionado ninguna carpeta");
+            alert.setContentText("Debe seleccionar una carpeta para generar el informe");
             alert.show();
         }
-
-
-
 
     }
 

@@ -52,7 +52,7 @@ public class VentanaPrincipal extends BaseController implements Initializable {
 
     private Folder folder;
     private Emails emailSelected;
-
+    private  WebEngine webEngine;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Logica.getINSTANCE().abreFichero();
@@ -116,7 +116,7 @@ public class VentanaPrincipal extends BaseController implements Initializable {
                     };
                 }
             });
-            WebEngine webEngine;
+
             webEngine = wvMensaje.getEngine();
 
             tvMensajes.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Emails>() {
@@ -218,37 +218,37 @@ public class VentanaPrincipal extends BaseController implements Initializable {
     }
     @FXML
     void listamails(ActionEvent event) throws IOException, MessagingException {
-        Logica.getINSTANCE().limpiarEmailsList();
-        EmailInforme emailInforme = new EmailInforme (emailSelected.getFrom(), emailSelected.getSubject(), Logica.getINSTANCE().convertirMessage(emailSelected.getMensaje()));
-        Logica.getINSTANCE().addEmailtoReport(emailInforme);
-        JRBeanCollectionDataSource jrds = new JRBeanCollectionDataSource(Logica.getINSTANCE().getEmailsList());
-     //   EmailInforme emailInforme = new EmailInforme (emailSelected.getFrom(), emailSelected.getSubject(), Logica.getINSTANCE().convertirMessage(emailSelected.getMensaje()));
-        try {
+        if (emailSelected!=null){
+            Logica.getINSTANCE().limpiarEmailsList();
+            EmailInforme emailInforme = new EmailInforme (emailSelected.getFrom(), emailSelected.getSubject(), Logica.getINSTANCE().convertirMessage(emailSelected.getMensaje()));
+            Logica.getINSTANCE().addEmailtoReport(emailInforme);
+            JRBeanCollectionDataSource jrds = new JRBeanCollectionDataSource(Logica.getINSTANCE().getEmailsList());
+            //   EmailInforme emailInforme = new EmailInforme (emailSelected.getFrom(), emailSelected.getSubject(), Logica.getINSTANCE().convertirMessage(emailSelected.getMensaje()));
+            try {
           /*  Map parametros = new HashMap();
             parametros.put("EMAIL", emailInforme);*/
 
-           JasperPrint jasperPrint = JasperFillManager.fillReport(
-                    getClass().getResourceAsStream("/es/soraya/jasper/emailGmail.jasper"),
-                    new HashMap<String, Object>(), jrds);
+                JasperPrint jasperPrint = JasperFillManager.fillReport(
+                        getClass().getResourceAsStream("/es/soraya/jasper/emailGmail.jasper"),
+                        new HashMap<String, Object>(), jrds);
           /*  JasperPrint jasperPrint = JasperFillManager.fillReport(
                     getClass().getResourceAsStream("/es/soraya/jasper/VistaEmail.jasper"),
                     parametros, jrds);*/
-            JasperExportManager.exportReportToPdfFile(jasperPrint, "informessalida/report.pdf");
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Informe generado");
-            alert.setContentText("El correo se ha guardado a pdf");
-            alert.show();
-        } catch (Throwable e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setHeaderText("Error generando el informe");
-            alert.setContentText("Ha ocurrido un error generando el informe");
-            alert.show();
+                JasperExportManager.exportReportToPdfFile(jasperPrint, "informessalida/report.pdf");
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Informe generado");
+                alert.setContentText("El correo se ha guardado a pdf");
+                alert.show();
+                emailSelected=null;
+            } catch (Throwable e) {
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR");
+                alert.setHeaderText("Error generando el informe");
+                alert.setContentText("Ha ocurrido un error generando el informe");
+                alert.show();
+            }
         }
+
     }
-
-
-
-
-}
+    }

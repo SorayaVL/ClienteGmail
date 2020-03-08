@@ -1,8 +1,6 @@
 package es.soraya.logica;
 
-import es.soraya.models.CuentaCorreo;
-import es.soraya.models.EmailInforme;
-import es.soraya.models.Emails;
+import es.soraya.models.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -20,6 +18,10 @@ public class Logica implements Serializable {
     private List<CuentaCorreo> listaCuentasList = new ArrayList<CuentaCorreo>();
     private File file = new File("cuentas.dat");
     public List<EmailInforme> emailsList = new ArrayList<>();
+    public List<EmailsFolder> emailsFolderList = new ArrayList<>();
+
+
+    public ObservableList<Carpeta> listaCarpetas = FXCollections.observableArrayList();
 
     public Logica() {
     }
@@ -43,6 +45,10 @@ public class Logica implements Serializable {
     public ObservableList<Emails> getListaCorreo() {
         return listaCorreo;
     }
+    public ObservableList<Carpeta> getListaCarpetas() {
+        return listaCarpetas;
+    }
+
 
     public void cargarCorreo(Emails correo) {
         listaCorreo.add(correo);
@@ -118,9 +124,17 @@ public class Logica implements Serializable {
         }
     }
 
+    public void addEmailsFolder (EmailsFolder emailsFolder) {
+        emailsFolderList.add(emailsFolder);
+    }
+
+    public void cleanEmailsFolder (){
+        emailsFolderList.clear();
+    }
     public void addEmailtoReport(EmailInforme emailInforme){
         emailsList.add(emailInforme);
     }
+    public void addCarpeta (Carpeta carpeta) {listaCarpetas.add(carpeta);}
 
     public void limpiarEmailsList (){
         emailsList.clear();
@@ -135,10 +149,17 @@ public class Logica implements Serializable {
      */
 
     public String convertirMessage (Message message) throws IOException, MessagingException {
-        Multipart multipart = (Multipart) message.getContent();
-        BodyPart bodyPart = multipart.getBodyPart(0);
-        String content = bodyPart.getContent().toString();
-        return content;
+        if (message.isMimeType("multipart/*"))
+        {
+            Multipart multipart = (Multipart) message.getContent();
+            BodyPart bodyPart = multipart.getBodyPart(0);
+            String content = bodyPart.getContent().toString();
+            return content;
+        }
+        else if (message.isMimeType("text/*"))
+            return message.getContent().toString();
+        else return "";
+
     }
 
 

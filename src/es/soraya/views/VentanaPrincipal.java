@@ -33,8 +33,7 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class VentanaPrincipal extends BaseController implements Initializable {
-    @FXML
-    private TableView<Emails> tvMensajes;
+
     @FXML
     private WebView wvMensaje;
     @FXML
@@ -43,7 +42,8 @@ public class VentanaPrincipal extends BaseController implements Initializable {
     private Button btnEliminar;
     @FXML
     private ProgressIndicator progressIndicator;
-
+    @FXML
+    private TableView<Emails> tvMensajes;
     private Message mensaje;
 
     public Folder getFolder() {
@@ -99,7 +99,7 @@ public class VentanaPrincipal extends BaseController implements Initializable {
                 }
             });
 
-            tvMensajes.setItems(Logica.getINSTANCE().getListaCorreo());
+           tvMensajes.setItems(Logica.getINSTANCE().getListaCorreo());
             tvMensajes.setRowFactory(new Callback<TableView<Emails>, TableRow<Emails>>() {
                 @Override
                 public TableRow<Emails> call(TableView<Emails> emailsTableView) { //Método que nos marcará los mensajes no leídos en negrita

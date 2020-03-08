@@ -40,4 +40,8 @@ public class EmailTreeItem extends TreeItem<String> {
         this.name = name;
         this.setFolder(folder);
     }
+
+    public EmailTreeItem(Folder folder) {
+        this.folder = folder;
+    }
 }

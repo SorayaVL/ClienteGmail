@@ -2,9 +2,7 @@ package es.soraya.logica;
 
 
 import com.sun.mail.imap.IMAPFolder;
-import es.soraya.models.CuentaCorreo;
-import es.soraya.models.EmailTreeItem;
-import es.soraya.models.Emails;
+import es.soraya.models.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
@@ -23,7 +21,7 @@ import java.util.Properties;
 public class GestionCuenta {
     private static GestionCuenta INSTANCE = null;
     private Message[] listaMensajes;
-    private Folder folder;
+    private Folder folder, folderCarpeta;
     private Store store;
     private TreeItem rootItem;
     private List<TreeItem<String>> listaTreeitem = new ArrayList<>();
@@ -38,6 +36,10 @@ public class GestionCuenta {
             INSTANCE = new GestionCuenta();
 
         return INSTANCE;
+    }
+
+    public Folder getFolder() {
+        return folder;
     }
 
     /**
@@ -83,10 +85,30 @@ public class GestionCuenta {
                     folder.open(Folder.READ_WRITE);
                 listaMensajes = folder.getMessages();
                 for (int i = 0; i < listaMensajes.length; i++) {
-                    System.out.println(folder.getName());
                     Message mensaje = listaMensajes[i];
                     Emails correo = new Emails(mensaje.getFrom(), mensaje.getSubject(), mensaje.getReceivedDate(), mensaje);
                     Logica.getINSTANCE().cargarCorreo(correo);
+
+                }
+            }
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void emailsCarpetaInforme(Folder folder) {
+        Logica.getINSTANCE().emailsFolderList.clear();
+        System.out.println();
+        System.out.println();
+        try {
+            if (folder.getType() != 2) {
+                if (!folder.isOpen())
+                    folder.open(Folder.READ_WRITE);
+                listaMensajes = folder.getMessages();
+                for (int i = 0; i < listaMensajes.length; i++) {
+                    Message mensaje = listaMensajes[i];
+                    EmailsFolder emailsFolder = new EmailsFolder(folder.getName(), mensaje.getFrom(), mensaje.getSubject(), mensaje.getReceivedDate());
+                    Logica.getINSTANCE().addEmailsFolder(emailsFolder);
                 }
             }
         } catch (MessagingException e) {
@@ -190,7 +212,22 @@ public class GestionCuenta {
 
         }
     }
+    public ObservableList rellenaCarpetas (CuentaCorreo cuentaCorreo) throws MessagingException {
+        Folder[] folders = store.getDefaultFolder().list();
+        cargaSubcarpetas(folders);
+        return Logica.getINSTANCE().listaCarpetas;
 
+    }
+
+    private void cargaSubcarpetas (Folder[] folders) throws MessagingException {
+        for (Folder folder :folders){
+            Carpeta carpeta = new Carpeta(folder,folder.getName());
+            Logica.getINSTANCE().addCarpeta(carpeta);
+            if (folder.getType()==Folder.HOLDS_FOLDERS){
+                cargaSubcarpetas(folder.list());
+            }
+        }
+    }
     /**
      * Método que saca por pantalla un mensaje.
      * Dado un mensaje, el método verifica si se trata de un mensaje de texto plano o un mensaje HTML

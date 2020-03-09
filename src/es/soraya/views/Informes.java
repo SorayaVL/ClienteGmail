@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
+import javafx.stage.FileChooser;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -19,6 +20,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import javax.mail.Folder;
 import javax.mail.MessagingException;
+import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,14 +48,19 @@ public class Informes extends BaseController implements Initializable {
                 parametros.put("NOMBRECARPETA", folder.getName());
 
                 JasperPrint jasperPrint = JasperFillManager.fillReport(getClass().getResourceAsStream("/es/soraya/jasper/EmailsCarpeta.jasper"), parametros, jrds);
-          /*  JasperPrint jasperPrint = JasperFillManager.fillReport(
-                    getClass().getResourceAsStream("/es/soraya/jasper/VistaEmail.jasper"),
-                    parametros, jrds);*/
-                JasperExportManager.exportReportToPdfFile(jasperPrint, "informessalida/reportCarpeta.pdf");
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Informe generado");
-                alert.setContentText("El correo se ha guardado a pdf");
-                alert.show();
+                FileChooser fileChooser = new FileChooser();
+                FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Archivos PDF (*.pdf)", "*.pdf");
+                fileChooser.getExtensionFilters().add(extFilter);
+                File file = fileChooser.showSaveDialog(stage); //o File file = fileChooser.showOpenDialog(stage);
+                //JasperExportManager.exportReportToPdfFile(jasperPrint, "informessalida/reportCarpeta.pdf");
+                if (file!=null){
+                    JasperExportManager.exportReportToPdfFile(jasperPrint, file.getAbsolutePath());
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Informe generado");
+                    alert.setContentText("El correo se ha guardado a pdf");
+                    alert.show();
+                }
+
             } catch (Throwable e) {
                 e.printStackTrace();
                 Alert alert = new Alert(Alert.AlertType.ERROR);

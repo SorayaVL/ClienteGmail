@@ -36,5 +36,8 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="net.sf.jasperreports:jasperreports:6.11.0" level="application" />
+    <orderEntry type="library" name="docGeneJFXHelp" level="application" />
+    <orderEntry type="library" name="elasticlunr" level="application" />
+    <orderEntry type="library" name="json" level="application" />
   </component>
 </module>

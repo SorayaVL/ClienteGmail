@@ -17,16 +17,21 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.docgene.help.JavaHelpFactory;
+import org.docgene.help.gui.jfx.JFXHelpContentViewer;
 
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -44,6 +49,12 @@ public class VentanaPrincipal extends BaseController implements Initializable {
     private ProgressIndicator progressIndicator;
     @FXML
     private TableView<Emails> tvMensajes;
+
+    @FXML
+    private Button btnAyunda;
+
+    private JFXHelpContentViewer viewer;
+
     private Message mensaje;
 
     public Folder getFolder() {
@@ -223,23 +234,24 @@ public class VentanaPrincipal extends BaseController implements Initializable {
             EmailInforme emailInforme = new EmailInforme (emailSelected.getFrom(), emailSelected.getSubject(), Logica.getINSTANCE().convertirMessage(emailSelected.getMensaje()));
             Logica.getINSTANCE().addEmailtoReport(emailInforme);
             JRBeanCollectionDataSource jrds = new JRBeanCollectionDataSource(Logica.getINSTANCE().getEmailsList());
-            //   EmailInforme emailInforme = new EmailInforme (emailSelected.getFrom(), emailSelected.getSubject(), Logica.getINSTANCE().convertirMessage(emailSelected.getMensaje()));
             try {
-          /*  Map parametros = new HashMap();
-            parametros.put("EMAIL", emailInforme);*/
-
-                JasperPrint jasperPrint = JasperFillManager.fillReport(
-                        getClass().getResourceAsStream("/es/soraya/jasper/emailGmail.jasper"),
+                JasperPrint jasperPrint = JasperFillManager.fillReport(getClass().getResourceAsStream("/es/soraya/jasper/emailGmail.jasper"),
                         new HashMap<String, Object>(), jrds);
-          /*  JasperPrint jasperPrint = JasperFillManager.fillReport(
-                    getClass().getResourceAsStream("/es/soraya/jasper/VistaEmail.jasper"),
-                    parametros, jrds);*/
-                JasperExportManager.exportReportToPdfFile(jasperPrint, "informessalida/report.pdf");
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Informe generado");
-                alert.setContentText("El correo se ha guardado a pdf");
-                alert.show();
-                emailSelected=null;
+                FileChooser fileChooser = new FileChooser();
+                FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Archivos PDF (*.pdf)", "*.pdf");
+                fileChooser.getExtensionFilters().add(extFilter);
+                File file = fileChooser.showSaveDialog(stage); //
+                if (file != null) {
+                    JasperExportManager.exportReportToPdfFile(jasperPrint, file.getAbsolutePath());
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Informe generado");
+                    alert.setHeaderText("Correo guardado");
+                    alert.setContentText("El correo se ha guardado a pdf");
+                    alert.show();
+                    emailSelected=null;
+                }
+
+
             } catch (Throwable e) {
                 e.printStackTrace();
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -251,4 +263,26 @@ public class VentanaPrincipal extends BaseController implements Initializable {
         }
 
     }
+    private void initializeHelp(Stage stage)
+    {
+        try {
+            URL url = this.getClass().getResource("/help/articles.zip");
+            JavaHelpFactory factory = new JavaHelpFactory(url);
+            factory.create();
+            viewer = new JFXHelpContentViewer();
+            factory.install(viewer);
+            viewer.getHelpWindow(stage, "Ventana Ayuda", 1300, 800);
+        }catch (Throwable e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void abreAyuda(ActionEvent event) {
+        initializeHelp(stage);
+        viewer.showHelpDialog(btnAyunda);
+
+    }
+
     }

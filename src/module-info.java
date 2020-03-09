@@ -11,6 +11,7 @@ module ClienteGmail {
         requires ComponenteReloj;
         requires jasperreports;
         requires java.sql;
+        requires org.docgene.help.jfx;
 
         exports es.soraya.models;
         exports es.soraya.logica;

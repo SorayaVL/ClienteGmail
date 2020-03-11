@@ -271,7 +271,7 @@ public class VentanaPrincipal extends BaseController implements Initializable {
             factory.create();
             viewer = new JFXHelpContentViewer();
             factory.install(viewer);
-            viewer.getHelpWindow(stage, "Ventana Ayuda", 1300, 800);
+            viewer.getHelpWindow(stage, "Ventana Ayuda", 700, 600);
         }catch (Throwable e)
         {
             e.printStackTrace();

@@ -31,7 +31,7 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="406.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
          <children>
-            <Button fx:id="btnEscribir" layoutX="10.0" layoutY="8.0" mnemonicParsing="false" onAction="#nuevoEmail" prefHeight="25.0" prefWidth="76.0" text="Nuevo" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="8.0" />
+            <Button fx:id="btnEscribir" layoutX="55.0" layoutY="10.0" mnemonicParsing="false" onAction="#nuevoEmail" prefHeight="25.0" prefWidth="76.0" text="Nuevo" AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="10.0" />
             <SplitPane dividerPositions="0.18608414239482202" layoutY="42.0" prefHeight="323.0" prefWidth="620.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="42.0">
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="353.0" prefWidth="40.0">
@@ -82,9 +82,8 @@
                   </AnchorPane>
               </items>
             </SplitPane>
-            <ProgressIndicator fx:id="progressIndicator" layoutX="186.0" layoutY="2.0" progress="0.0" AnchorPane.rightAnchor="427.0" AnchorPane.topAnchor="2.0" />
-            <Button fx:id="btnInbox" layoutX="96.0" layoutY="9.0" mnemonicParsing="false" onAction="#cargarInbox" prefHeight="25.0" prefWidth="84.0" text="INBOX" />
-            <Button fx:id="btnAyunda" layoutX="599.0" layoutY="10.0" mnemonicParsing="false" onAction="#abreAyuda" prefHeight="25.0" prefWidth="27.0" text="?" />
+            <ProgressIndicator fx:id="progressIndicator" layoutX="607.0" layoutY="3.0" progress="0.0" AnchorPane.rightAnchor="10.0" />
+            <Button fx:id="btnAyunda" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" onAction="#abreAyuda" prefHeight="25.0" prefWidth="27.0" text="?" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="10.0" />
          </children>
     </AnchorPane>
   </children>

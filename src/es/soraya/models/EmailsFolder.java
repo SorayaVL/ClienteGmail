@@ -1,6 +1,7 @@
 package es.soraya.models;
 
 import javax.mail.Address;
+import java.util.Arrays;
 import java.util.Date;
 
 public class EmailsFolder {
@@ -56,5 +57,15 @@ public class EmailsFolder {
         this.remitente = remitente;
         this.asunto = asunto;
         this.fecha = fecha;
+    }
+
+    @Override
+    public String toString() {
+        return "EmailsFolder{" +
+                "nombreCarpeta='" + nombreCarpeta + '\'' +
+                ", remitente=" + Arrays.toString(remitente) +
+                ", asunto='" + asunto + '\'' +
+                ", fecha=" + fecha +
+                '}';
     }
 }

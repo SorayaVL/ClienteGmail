@@ -36,11 +36,15 @@ public class Informes extends BaseController implements Initializable {
 
     private Folder folder;
 
+    private CuentaCorreo cuentaCorreo;
+
+
     @FXML
     void generaInforme(ActionEvent event) {
        if (tvCarpetas.getSelectionModel().getSelectedItem()!=null)
            folder=tvCarpetas.getSelectionModel().getSelectedItem().getFolder();
         if (folder!=null){
+            Logica.getINSTANCE().emailsFolderList.clear();
             GestionCuenta.getINSTANCE().emailsCarpetaInforme(folder);
             JRBeanCollectionDataSource jrds = new JRBeanCollectionDataSource(Logica.getINSTANCE().emailsFolderList);
             try {
@@ -77,6 +81,13 @@ public class Informes extends BaseController implements Initializable {
             alert.setContentText("Debe seleccionar una carpeta para generar el informe");
             alert.show();
         }
+
+    }
+
+    @FXML
+    void informeAllEmails(ActionEvent event) throws MessagingException {
+        cuentaCorreo = cbCuenta.getSelectionModel().getSelectedItem();
+        GestionCuenta.getINSTANCE().listaEmailsCuenta(cuentaCorreo);
 
     }
 

@@ -95,38 +95,6 @@ public class GestionCuenta {
         }
     }
 
-    public void emailsCarpetaInforme(Folder folder) {
-        Logica.getINSTANCE().emailsFolderList.clear();
-        System.out.println();
-        System.out.println();
-        try {
-            if (folder.getType() != 2) {
-                if (!folder.isOpen())
-                    folder.open(Folder.READ_WRITE);
-                listaMensajes = folder.getMessages();
-                for (int i = 0; i < listaMensajes.length; i++) {
-                    Message mensaje = listaMensajes[i];
-                    EmailsFolder emailsFolder = new EmailsFolder(folder.getName(), mensaje.getFrom(), mensaje.getSubject(), mensaje.getReceivedDate());
-                    Logica.getINSTANCE().addEmailsFolder(emailsFolder);
-                }
-            }
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-    }
-
-  /*  public ObservableList<String> listaInbox () throws MessagingException {
-        IMAPFolder inbox = (IMAPFolder) store.getFolder("INBOX");
-        listaMensajes=inbox.getMessages();
-        ObservableList<String>listaCombo = FXCollections.observableArrayList();
-      for (int i=0; i<listaMensajes.length; i++){
-          Message message = listaMensajes[i];
-          Emails correo = new Emails(message.getFrom(), message.getSubject(), message.getReceivedDate(), message);
-          listaCombo.add(message.getFrom().toString()+message.getSentDate().toString());
-
-      }
-      return listaCombo;
-    }*/
 
 
 
@@ -211,9 +179,30 @@ public class GestionCuenta {
 
         }
     }
+
+    public void emailsCarpetaInforme(Folder folder) {
+        // Logica.getINSTANCE().emailsFolderList.clear();
+        try {
+            if (folder.getType() != 2) {
+                if (!folder.isOpen())
+                    folder.open(Folder.READ_WRITE);
+                listaMensajes = folder.getMessages();
+                for (int i = 0; i < listaMensajes.length; i++) {
+                    Message mensaje = listaMensajes[i];
+                    EmailsFolder emailsFolder = new EmailsFolder(folder.getName(), mensaje.getFrom(), mensaje.getSubject(), mensaje.getReceivedDate());
+                    Logica.getINSTANCE().addEmailsFolder(emailsFolder);
+                    System.out.println(emailsFolder.toString());
+                }
+            }
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
     public ObservableList rellenaCarpetas (CuentaCorreo cuentaCorreo) throws MessagingException {
         Folder[] folders = store.getDefaultFolder().list();
         cargaSubcarpetas(folders);
+        System.out.println(Logica.getINSTANCE().listaCarpetas);
         return Logica.getINSTANCE().listaCarpetas;
 
     }
@@ -224,9 +213,21 @@ public class GestionCuenta {
             Logica.getINSTANCE().addCarpeta(carpeta);
             if (folder.getType()==Folder.HOLDS_FOLDERS){
                 cargaSubcarpetas(folder.list());
+                emailsCarpetaInforme(folder);
+
             }
         }
     }
+
+    public void listaEmailsCuenta (CuentaCorreo cuentaCorreo) throws MessagingException {
+        Logica.getINSTANCE().listaCarpetas.clear();
+      rellenaCarpetas(cuentaCorreo);
+      for (Carpeta carpeta : Logica.getINSTANCE().getListaCarpetas()){
+          emailsCarpetaInforme(carpeta.getFolder());
+
+      }
+    }
+
     /**
      * Método que saca por pantalla un mensaje.
      * Dado un mensaje, el método verifica si se trata de un mensaje de texto plano o un mensaje HTML

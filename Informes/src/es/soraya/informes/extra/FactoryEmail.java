@@ -29,4 +29,19 @@ public class FactoryEmail {
         return emailsFoldersList;
     }
 
+    public static List<EmailsFolder> listaEmailsAgrupados(){
+        List<EmailsFolder> listaAgrupada = new ArrayList<>();
+        listaAgrupada.add(new EmailsFolder("Carpeta1", "Remitente1", "Asunto1", new Date(), "contenido1"));
+        listaAgrupada.add(new EmailsFolder("Carpeta1", "Remitente2", "Asunto2", new Date(), "contenido2"));
+        listaAgrupada.add(new EmailsFolder("Carpeta1", "Remitente3", "Asunto3", new Date(), "contenido3"));
+        listaAgrupada.add(new EmailsFolder("Carpeta2", "Remitente1", "Asunto1", new Date(), "contenido1"));
+        listaAgrupada.add(new EmailsFolder("Carpeta2", "Remitente2", "Asunto2", new Date(), "contenido2"));
+        listaAgrupada.add(new EmailsFolder("Carpeta2", "Remitente3", "Asunto3", new Date(), "contenido3"));
+        listaAgrupada.add(new EmailsFolder("Carpeta3", "Remitente1", "Asunto1", new Date(), "contenido1"));
+        listaAgrupada.add(new EmailsFolder("Carpeta3", "Remitente2", "Asunto2", new Date(), "contenido2"));
+        listaAgrupada.add(new EmailsFolder("Carpeta3", "Remitente3", "Asunto3", new Date(), "contenido3"));
+
+        return listaAgrupada;
+    }
+
 }

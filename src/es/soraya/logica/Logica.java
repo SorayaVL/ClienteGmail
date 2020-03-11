@@ -114,7 +114,7 @@ public class Logica implements Serializable {
 
     }
 
-    public void crearEmailsInforme() throws IOException, MessagingException {
+    /*public void crearEmailsInforme() throws IOException, MessagingException {
         for (Emails emails : listaCorreo){
             String remitente = emails.getFrom();
             String asunto = emails.getSubject();
@@ -122,7 +122,7 @@ public class Logica implements Serializable {
             emailsList.add(new EmailInforme(remitente, asunto, contenido));
 
         }
-    }
+    }*/
 
     public void addEmailsFolder (EmailsFolder emailsFolder) {
         emailsFolderList.add(emailsFolder);

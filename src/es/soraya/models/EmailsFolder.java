@@ -9,6 +9,7 @@ public class EmailsFolder {
     private String nombreCarpeta;
     private Address[] remitente;
     private String asunto;
+    private String contenido;
     private Date fecha;
 
     public String getNombreCarpeta() {
@@ -52,6 +53,22 @@ public class EmailsFolder {
         this.fecha = fecha;
     }
 
+    public String getContenido() {
+        return contenido;
+    }
+
+    public void setContenido(String contenido) {
+        this.contenido = contenido;
+    }
+
+    public EmailsFolder(String nombreCarpeta, Address[] remitente, String asunto,  Date fecha, String contenido) {
+        this.nombreCarpeta = nombreCarpeta;
+        this.remitente = remitente;
+        this.asunto = asunto;
+        this.contenido = contenido;
+        this.fecha = fecha;
+    }
+
     public EmailsFolder(String nombreCarpeta, Address[] remitente, String asunto, Date fecha) {
         this.nombreCarpeta = nombreCarpeta;
         this.remitente = remitente;
@@ -65,6 +82,7 @@ public class EmailsFolder {
                 "nombreCarpeta='" + nombreCarpeta + '\'' +
                 ", remitente=" + Arrays.toString(remitente) +
                 ", asunto='" + asunto + '\'' +
+                ", contenido='" + contenido + '\'' +
                 ", fecha=" + fecha +
                 '}';
     }

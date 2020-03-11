@@ -13,6 +13,7 @@ import org.apache.commons.mail.util.MimeMessageParser;
 
 import javax.mail.*;
 import javax.mail.internet.MimeMessage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -189,12 +190,11 @@ public class GestionCuenta {
                 listaMensajes = folder.getMessages();
                 for (int i = 0; i < listaMensajes.length; i++) {
                     Message mensaje = listaMensajes[i];
-                    EmailsFolder emailsFolder = new EmailsFolder(folder.getName(), mensaje.getFrom(), mensaje.getSubject(), mensaje.getReceivedDate());
+                    EmailsFolder emailsFolder = new EmailsFolder(folder.getName(), mensaje.getFrom(), mensaje.getSubject(), mensaje.getReceivedDate(), Logica.getINSTANCE().convertirMessage(mensaje));
                     Logica.getINSTANCE().addEmailsFolder(emailsFolder);
-                    System.out.println(emailsFolder.toString());
                 }
             }
-        } catch (MessagingException e) {
+        } catch (MessagingException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -202,7 +202,6 @@ public class GestionCuenta {
     public ObservableList rellenaCarpetas (CuentaCorreo cuentaCorreo) throws MessagingException {
         Folder[] folders = store.getDefaultFolder().list();
         cargaSubcarpetas(folders);
-        System.out.println(Logica.getINSTANCE().listaCarpetas);
         return Logica.getINSTANCE().listaCarpetas;
 
     }

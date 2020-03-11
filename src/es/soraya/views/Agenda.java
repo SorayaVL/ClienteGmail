@@ -35,9 +35,11 @@ public class Agenda extends BaseController implements Initializable {
     @FXML
     private ComboBox<String> cbSeg;
 
+    private Agenda agenda;
+
 
     @FXML
-    private Reloj reloj;
+    private Reloj reloj = new Reloj();
 
     private Tarea tarea;
 
@@ -81,6 +83,7 @@ public class Agenda extends BaseController implements Initializable {
         limpiaVentana();
         reloj.comienza();
 
+
     }
 
     private void limpiaVentana(){
@@ -88,7 +91,13 @@ public class Agenda extends BaseController implements Initializable {
         cbHora.getSelectionModel().select(12);
         cbMin.getSelectionModel().select(30);
         cbSeg.getSelectionModel().select(30);
+
     }
+
+  /*  */
+
+
+
 
 
 }

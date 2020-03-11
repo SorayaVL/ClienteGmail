@@ -67,14 +67,17 @@ public class GestionCuenta {
         }
     }
 
-    /**
-     * Método para cargar la lista de correos de una carpeta.
-     * Limpia los mails que tenemos en la lista de correos para que no sigan apareciendo en el tableview.
-     * comprueba que la carpeta tiene mensajes. Si tiene mensajes abre la carpeta en modo lectura escritura, y se guarda todos los mensajes del folder en un array
-     * crea un objeto mensaje por cada uno de la lista y lo añade a la lista de correos.
-     *
-     * @throws MessagingException
-     */
+
+
+
+            /**
+             * Método para cargar la lista de correos de una carpeta.
+             * Limpia los mails que tenemos en la lista de correos para que no sigan apareciendo en el tableview.
+             * comprueba que la carpeta tiene mensajes. Si tiene mensajes abre la carpeta en modo lectura escritura, y se guarda todos los mensajes del folder en un array
+             * crea un objeto mensaje por cada uno de la lista y lo añade a la lista de correos.
+             *
+             * @throws MessagingException
+             */
 
     public void listaEmails(Folder folder) {
         Logica.getINSTANCE().listaCorreo.clear();

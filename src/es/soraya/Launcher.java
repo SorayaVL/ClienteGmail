@@ -6,7 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import javax.mail.*;
+import javax.mail.MessagingException;
 import java.io.IOException;
 
 
@@ -18,9 +18,7 @@ public class Launcher extends Application {
         stage.setTitle("Gestor Gmail");
         stage.setScene(new Scene(root));
         stage.setMaximized(false);
-        stage.show();
-
-    }
+        stage.show();    }
 
     public static void main(String[] args) throws MessagingException, IOException {
         launch(args);

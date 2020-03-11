@@ -87,36 +87,48 @@ public class Informes extends BaseController implements Initializable {
     @FXML
     void informeAllEmails(ActionEvent event) throws MessagingException {
         cuentaCorreo = cbCuenta.getSelectionModel().getSelectedItem();
-        GestionCuenta.getINSTANCE().listaEmailsCuenta(cuentaCorreo);
-        JRBeanCollectionDataSource jrds = new JRBeanCollectionDataSource(Logica.getINSTANCE().emailsFolderList);
-        try {
-            JasperPrint jasperPrint = JasperFillManager.fillReport(getClass().getResourceAsStream("/es/soraya/jasper/allEmails.jasper"),
-                    new HashMap<String, Object>(), jrds);
-            FileChooser fileChooser = new FileChooser();
-            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Archivos PDF (*.pdf)", "*.pdf");
-            fileChooser.getExtensionFilters().add(extFilter);
-            File file = fileChooser.showSaveDialog(stage); //
-            if (file != null) {
-                JasperExportManager.exportReportToPdfFile(jasperPrint, file.getAbsolutePath());
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Informe generado");
-                alert.setHeaderText("Correo guardado");
-                alert.setContentText("El correo se ha guardado a pdf");
-                alert.show();
-            }
+        if (cuentaCorreo!=null){
+            GestionCuenta.getINSTANCE().listaEmailsCuenta(cuentaCorreo);
+            creaInforme("allEmails.jasper");
 
-
-        } catch (Throwable e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setHeaderText("Error generando el informe");
-            alert.setContentText("Ha ocurrido un error generando el informe");
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Seleccione una cuenta de correo");
+            alert.setHeaderText("No se ha seleccionado ninguna cuenta");
+            alert.setContentText("Debe seleccionar una cuenta para generar el informe");
             alert.show();
         }
+
     }
 
+    public void creaInforme (String nombreInforme){
+          JRBeanCollectionDataSource jrds = new JRBeanCollectionDataSource(Logica.getINSTANCE().emailsFolderList);
+            try {
+                JasperPrint jasperPrint = JasperFillManager.fillReport(getClass().getResourceAsStream("/es/soraya/jasper/"+nombreInforme),
+                        new HashMap<String, Object>(), jrds);
+                FileChooser fileChooser = new FileChooser();
+                FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Archivos PDF (*.pdf)", "*.pdf");
+                fileChooser.getExtensionFilters().add(extFilter);
+                File file = fileChooser.showSaveDialog(stage); //
+                if (file != null) {
+                    JasperExportManager.exportReportToPdfFile(jasperPrint, file.getAbsolutePath());
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Informe generado");
+                    alert.setHeaderText("Correo guardado");
+                    alert.setContentText("El correo se ha guardado a pdf");
+                    alert.show();
+                }
 
+
+            } catch (Throwable e) {
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR");
+                alert.setHeaderText("Error generando el informe");
+                alert.setContentText("Ha ocurrido un error generando el informe");
+                alert.show();
+            }
+    }
 
 
     @Override

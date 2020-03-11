@@ -8,11 +8,11 @@
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="364.0" prefWidth="471.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.soraya.views.Informes">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="317.0" prefWidth="582.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.soraya.views.Informes">
    <children>
       <Label layoutX="35.0" layoutY="46.0" prefHeight="17.0" prefWidth="46.0" text="Cuenta:" />
       <ComboBox fx:id="cbCuenta" layoutX="97.0" layoutY="42.0" prefHeight="25.0" prefWidth="325.0" promptText="&lt;Seleccione una cuenta&gt;" />
-      <TableView fx:id="tvCarpetas" layoutX="98.0" layoutY="82.0" prefHeight="200.0" prefWidth="325.0">
+      <TableView fx:id="tvCarpetas" layoutX="98.0" layoutY="86.0" prefHeight="196.0" prefWidth="325.0">
         <columns>
           <TableColumn prefWidth="324.0" text="Carpetas">
            <cellValueFactory><PropertyValueFactory property="nombre" />
@@ -20,7 +20,7 @@
           </TableColumn>
         </columns>
       </TableView>
-      <Button fx:id="btnReportListaMails" layoutX="230.0" layoutY="298.0" mnemonicParsing="false" onAction="#generaInforme" prefHeight="25.0" prefWidth="193.0" text="Generar Informe" />
-      <Button fx:id="btnOk" layoutX="97.0" layoutY="305.0" mnemonicParsing="false" onAction="#informeAllEmails" text="Button" />
+      <Button fx:id="btnReportListaMails" layoutX="442.0" layoutY="257.0" mnemonicParsing="false" onAction="#generaInforme" prefHeight="25.0" prefWidth="123.0" text="Emails en Carpeta" />
+      <Button fx:id="btnOk" layoutX="442.0" layoutY="42.0" mnemonicParsing="false" onAction="#informeAllEmails" prefHeight="25.0" prefWidth="123.0" text="Emails en Cuenta" />
    </children>
 </Pane>
